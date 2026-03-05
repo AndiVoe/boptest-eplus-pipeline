@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# EnergyPlus simulation outputs (large, reproducible)
+data/results/bestest_out/
+data/results/eplusout.*
+data/results/eplustbl.*
+data/results/bestest_naive.idf
+
+# Keep these results (small, important)
+# data/results/archetype_params.json
+# data/results/baseline_kpis.csv
+# data/results/boptest_hello.csv
+# data/results/weather.epw
+
+# Temp debug files
+hello_output.txt
+final_hello_output.txt
+selection_result.json
+inputs.json
+measurements.json
+
+# Jupyter
+.ipynb_checkpoints/
