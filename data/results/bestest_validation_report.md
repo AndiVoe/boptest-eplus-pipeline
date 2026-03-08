@@ -1,33 +1,18 @@
-# BESTEST-Equivalent Model Validation Report
+# BESTEST Validation Report (6-Hour BopTest Reference)
 
-## EnergyPlus Naive Model Quality
+## Data Summary
 
-| Metric | Value |
-|--------|-------|
-| Simulation period | Jan 1 - Mar 1, 2024 |
-| Total timesteps | 8640 |
-| Temperature range | 15.0C - 22.4C |
-| Temperature std dev | 2.94C |
-| Unique temp values | 919 |
-| Total heating | 8.402 GJ |
-| Total cooling | 0.000 GJ |
-
-**Assessment**: The model shows REALISTIC dynamic behavior with 919 unique temperature values.
-
-## BopTest Reference Data
-
-| Metric | Value |
-|--------|-------|
-| Data points | 4 |
-| Time span | 2024-01-01 00:15:00 - 2024-01-01 01:00:00 |
-| Temperature mean | 20.01C |
+| Dataset | Points | Period | Temp Range |
+|---------|--------|--------|------------|
+| E+ BESTEST | 8640 | Jan-Mar 2024 | 15.0 - 22.4 C |
+| BopTest | 24 | 00:15-06:00 Jan 1 | 15.0 - 18.1 C |
+| Overlap | 7 hourly pts | - | - |
 
 ## ASHRAE Guideline 14 Metrics
 
 | Metric | Value | Threshold | Status |
 |--------|-------|-----------|--------|
-| CVRMSE | 25.0% | <=30% | PASS |
-| NMBE | -25.0% | +/-10% | FAIL |
-| Overlap points | 2 | - | INSUFFICIENT |
+| CVRMSE | 9.2% | <=30% | PASS |
+| NMBE | -7.4% | +/-10% | PASS |
 
-## Overall: FAIL
+## Overall: PASS
