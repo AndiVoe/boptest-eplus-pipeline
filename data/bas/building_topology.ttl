@@ -1,0 +1,295 @@
+@prefix bldg: <urn:phd_building/> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+bldg:Boiler-1 a brick:Boiler ;
+    brick:hasPoint bldg:BOIL1_STS .
+
+bldg:Building brick:hasPoint bldg:HVAC_ELEC_KW .
+
+bldg:CHW_Plant a brick:Chilled_Water_System ;
+    brick:hasPoint bldg:CHW_R_T,
+        bldg:CHW_S_T .
+
+bldg:CHW_Pump-1 a brick:Equipment ;
+    brick:hasPoint bldg:CHWP1_STS .
+
+bldg:Chiller-1 a brick:Chiller ;
+    brick:hasPoint bldg:CHIL1_STS .
+
+bldg:HW_Plant a brick:Hot_Water_System ;
+    brick:hasPoint bldg:HW_R_T,
+        bldg:HW_S_T .
+
+bldg:HW_Pump-1 a brick:Equipment ;
+    brick:hasPoint bldg:HWP1_STS .
+
+bldg:Site_1 a brick:Site ;
+    brick:hasPart bldg:Building_1 .
+
+bldg:VAV-101 a brick:VAV ;
+    brick:feeds bldg:Zone_VAV-101 ;
+    brick:hasPoint bldg:VAV-101_DMP,
+        bldg:VAV-101_FLO,
+        bldg:VAV-101_FLO_SP,
+        bldg:VAV-101_RHC,
+        bldg:VAV-101_ZNT,
+        bldg:VAV-101_ZNT_SP .
+
+bldg:VAV-102 a brick:VAV ;
+    brick:feeds bldg:Zone_VAV-102 ;
+    brick:hasPoint bldg:VAV-102_DMP,
+        bldg:VAV-102_FLO,
+        bldg:VAV-102_FLO_SP,
+        bldg:VAV-102_RHC,
+        bldg:VAV-102_ZNT,
+        bldg:VAV-102_ZNT_SP .
+
+bldg:VAV-103 a brick:VAV ;
+    brick:feeds bldg:Zone_VAV-103 ;
+    brick:hasPoint bldg:VAV-103_DMP,
+        bldg:VAV-103_FLO,
+        bldg:VAV-103_FLO_SP,
+        bldg:VAV-103_RHC,
+        bldg:VAV-103_ZNT,
+        bldg:VAV-103_ZNT_SP .
+
+bldg:VAV-104 a brick:VAV ;
+    brick:feeds bldg:Zone_VAV-104 ;
+    brick:hasPoint bldg:VAV-104_DMP,
+        bldg:VAV-104_FLO,
+        bldg:VAV-104_FLO_SP,
+        bldg:VAV-104_RHC,
+        bldg:VAV-104_ZNT,
+        bldg:VAV-104_ZNT_SP .
+
+bldg:VAV-105 a brick:VAV ;
+    brick:feeds bldg:Zone_VAV-105 ;
+    brick:hasPoint bldg:VAV-105_DMP,
+        bldg:VAV-105_FLO,
+        bldg:VAV-105_FLO_SP,
+        bldg:VAV-105_RHC,
+        bldg:VAV-105_ZNT,
+        bldg:VAV-105_ZNT_SP .
+
+bldg:AHU-1 a brick:AHU ;
+    brick:hasPoint bldg:AHU1_CC_VLV,
+        bldg:AHU1_DAT,
+        bldg:AHU1_HC_VLV,
+        bldg:AHU1_OAD,
+        bldg:AHU1_OAT,
+        bldg:AHU1_RAT,
+        bldg:AHU1_SAF_SPD,
+        bldg:AHU1_SAF_STS .
+
+bldg:AHU1_CC_VLV a brick:Cooling_Valve_Command ;
+    rdfs:label "Cooling Coil Valve Position" ;
+    brick:hasUnit "percent" .
+
+bldg:AHU1_DAT a brick:Discharge_Air_Temperature_Sensor ;
+    rdfs:label "Discharge Air Temperature" ;
+    brick:hasUnit "degC" .
+
+bldg:AHU1_HC_VLV a brick:Heating_Valve_Command ;
+    rdfs:label "Heating Coil Valve Position" ;
+    brick:hasUnit "percent" .
+
+bldg:AHU1_OAD a brick:Outside_Air_Damper_Position_Command ;
+    rdfs:label "Outside Air Damper Position" ;
+    brick:hasUnit "percent" .
+
+bldg:AHU1_OAT a brick:Outside_Air_Temperature_Sensor ;
+    rdfs:label "Outside Air Temperature" ;
+    brick:hasUnit "degC" .
+
+bldg:AHU1_RAT a brick:Return_Air_Temperature_Sensor ;
+    rdfs:label "Return Air Temperature" ;
+    brick:hasUnit "degC" .
+
+bldg:AHU1_SAF_SPD a brick:Fan_Speed_Command ;
+    rdfs:label "Supply Air Fan Speed" ;
+    brick:hasUnit "percent" .
+
+bldg:AHU1_SAF_STS a brick:Fan_Status ;
+    rdfs:label "Supply Air Fan Status" ;
+    brick:hasUnit "On/Off" .
+
+bldg:BLDG_ELEC_KW a brick:Electrical_Power_Sensor ;
+    rdfs:label "Total Electric Power" ;
+    brick:hasUnit "kW" .
+
+bldg:BOIL1_STS a brick:On_Off_Status ;
+    rdfs:label "Boiler Status" ;
+    brick:hasUnit "On/Off" .
+
+bldg:Building_1 a brick:Building ;
+    brick:hasEquipment bldg:AHU-1 ;
+    brick:hasPart bldg:Zone_VAV-101,
+        bldg:Zone_VAV-102,
+        bldg:Zone_VAV-103,
+        bldg:Zone_VAV-104,
+        bldg:Zone_VAV-105 ;
+    brick:hasPoint bldg:BLDG_ELEC_KW .
+
+bldg:CHIL1_STS a brick:On_Off_Status ;
+    rdfs:label "Chiller Status" ;
+    brick:hasUnit "On/Off" .
+
+bldg:CHWP1_STS a brick:Pump_On_Off_Status ;
+    rdfs:label "Chilled Water Pump Status" ;
+    brick:hasUnit "On/Off" .
+
+bldg:CHW_R_T a brick:Chilled_Water_Return_Temperature_Sensor ;
+    rdfs:label "Chilled Water Return Temp" ;
+    brick:hasUnit "degC" .
+
+bldg:CHW_S_T a brick:Chilled_Water_Supply_Temperature_Sensor ;
+    rdfs:label "Chilled Water Supply Temp" ;
+    brick:hasUnit "degC" .
+
+bldg:HVAC_ELEC_KW a brick:Electrical_Power_Sensor ;
+    rdfs:label "HVAC Electric Power" ;
+    brick:hasUnit "kW" .
+
+bldg:HWP1_STS a brick:Pump_On_Off_Status ;
+    rdfs:label "Hot Water Pump Status" ;
+    brick:hasUnit "On/Off" .
+
+bldg:HW_R_T a brick:Hot_Water_Return_Temperature_Sensor ;
+    rdfs:label "Hot Water Return Temp" ;
+    brick:hasUnit "degC" .
+
+bldg:HW_S_T a brick:Hot_Water_Supply_Temperature_Sensor ;
+    rdfs:label "Hot Water Supply Temp" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-101_DMP a brick:Damper_Position_Command ;
+    rdfs:label "Damper Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-101_FLO a brick:Discharge_Air_Flow_Sensor ;
+    rdfs:label "Discharge Airflow" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-101_FLO_SP a brick:Discharge_Air_Flow_Setpoint ;
+    rdfs:label "Airflow Setpoint" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-101_RHC a brick:Heating_Valve_Command ;
+    rdfs:label "Reheat Valve Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-101_ZNT a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "Zone Temperature" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-101_ZNT_SP a brick:Zone_Air_Temperature_Setpoint ;
+    rdfs:label "Zone Temperature Setpoint" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-102_DMP a brick:Damper_Position_Command ;
+    rdfs:label "Damper Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-102_FLO a brick:Discharge_Air_Flow_Sensor ;
+    rdfs:label "Discharge Airflow" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-102_FLO_SP a brick:Discharge_Air_Flow_Setpoint ;
+    rdfs:label "Airflow Setpoint" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-102_RHC a brick:Heating_Valve_Command ;
+    rdfs:label "Reheat Valve Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-102_ZNT a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "Zone Temperature" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-102_ZNT_SP a brick:Zone_Air_Temperature_Setpoint ;
+    rdfs:label "Zone Temperature Setpoint" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-103_DMP a brick:Damper_Position_Command ;
+    rdfs:label "Damper Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-103_FLO a brick:Discharge_Air_Flow_Sensor ;
+    rdfs:label "Discharge Airflow" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-103_FLO_SP a brick:Discharge_Air_Flow_Setpoint ;
+    rdfs:label "Airflow Setpoint" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-103_RHC a brick:Heating_Valve_Command ;
+    rdfs:label "Reheat Valve Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-103_ZNT a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "Zone Temperature" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-103_ZNT_SP a brick:Zone_Air_Temperature_Setpoint ;
+    rdfs:label "Zone Temperature Setpoint" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-104_DMP a brick:Damper_Position_Command ;
+    rdfs:label "Damper Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-104_FLO a brick:Discharge_Air_Flow_Sensor ;
+    rdfs:label "Discharge Airflow" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-104_FLO_SP a brick:Discharge_Air_Flow_Setpoint ;
+    rdfs:label "Airflow Setpoint" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-104_RHC a brick:Heating_Valve_Command ;
+    rdfs:label "Reheat Valve Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-104_ZNT a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "Zone Temperature" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-104_ZNT_SP a brick:Zone_Air_Temperature_Setpoint ;
+    rdfs:label "Zone Temperature Setpoint" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-105_DMP a brick:Damper_Position_Command ;
+    rdfs:label "Damper Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-105_FLO a brick:Discharge_Air_Flow_Sensor ;
+    rdfs:label "Discharge Airflow" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-105_FLO_SP a brick:Discharge_Air_Flow_Setpoint ;
+    rdfs:label "Airflow Setpoint" ;
+    brick:hasUnit "L/s" .
+
+bldg:VAV-105_RHC a brick:Heating_Valve_Command ;
+    rdfs:label "Reheat Valve Position" ;
+    brick:hasUnit "percent" .
+
+bldg:VAV-105_ZNT a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "Zone Temperature" ;
+    brick:hasUnit "degC" .
+
+bldg:VAV-105_ZNT_SP a brick:Zone_Air_Temperature_Setpoint ;
+    rdfs:label "Zone Temperature Setpoint" ;
+    brick:hasUnit "degC" .
+
+bldg:Zone_VAV-101 a brick:HVAC_Zone .
+
+bldg:Zone_VAV-102 a brick:HVAC_Zone .
+
+bldg:Zone_VAV-103 a brick:HVAC_Zone .
+
+bldg:Zone_VAV-104 a brick:HVAC_Zone .
+
+bldg:Zone_VAV-105 a brick:HVAC_Zone .
+

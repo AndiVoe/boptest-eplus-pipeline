@@ -1,0 +1,49 @@
+Point_Name,Equipment_ID,Description,Point_Class,Unit,BACnet_Type
+AHU1.DAT,AHU-1,Discharge Air Temperature,Sensor,degC,Analog Input
+AHU1.RAT,AHU-1,Return Air Temperature,Sensor,degC,Analog Input
+AHU1.OAT,AHU-1,Outside Air Temperature,Sensor,degC,Analog Input
+AHU1.SAF.SPD,AHU-1,Supply Air Fan Speed,Command,percent,Analog Output
+AHU1.SAF.STS,AHU-1,Supply Air Fan Status,Status,On/Off,Binary Input
+AHU1.HC.VLV,AHU-1,Heating Coil Valve Position,Command,percent,Analog Output
+AHU1.CC.VLV,AHU-1,Cooling Coil Valve Position,Command,percent,Analog Output
+AHU1.OAD,AHU-1,Outside Air Damper Position,Command,percent,Analog Output
+VAV-101.ZNT,VAV-101,Zone Temperature,Sensor,degC,Analog Input
+VAV-101.ZNT_SP,VAV-101,Zone Temperature Setpoint,Setpoint,degC,Analog Value
+VAV-101.DMP,VAV-101,Damper Position,Command,percent,Analog Output
+VAV-101.FLO,VAV-101,Discharge Airflow,Sensor,L/s,Analog Input
+VAV-101.FLO_SP,VAV-101,Airflow Setpoint,Setpoint,L/s,Analog Value
+VAV-101.RHC,VAV-101,Reheat Valve Position,Command,percent,Analog Output
+VAV-102.ZNT,VAV-102,Zone Temperature,Sensor,degC,Analog Input
+VAV-102.ZNT_SP,VAV-102,Zone Temperature Setpoint,Setpoint,degC,Analog Value
+VAV-102.DMP,VAV-102,Damper Position,Command,percent,Analog Output
+VAV-102.FLO,VAV-102,Discharge Airflow,Sensor,L/s,Analog Input
+VAV-102.FLO_SP,VAV-102,Airflow Setpoint,Setpoint,L/s,Analog Value
+VAV-102.RHC,VAV-102,Reheat Valve Position,Command,percent,Analog Output
+VAV-103.ZNT,VAV-103,Zone Temperature,Sensor,degC,Analog Input
+VAV-103.ZNT_SP,VAV-103,Zone Temperature Setpoint,Setpoint,degC,Analog Value
+VAV-103.DMP,VAV-103,Damper Position,Command,percent,Analog Output
+VAV-103.FLO,VAV-103,Discharge Airflow,Sensor,L/s,Analog Input
+VAV-103.FLO_SP,VAV-103,Airflow Setpoint,Setpoint,L/s,Analog Value
+VAV-103.RHC,VAV-103,Reheat Valve Position,Command,percent,Analog Output
+VAV-104.ZNT,VAV-104,Zone Temperature,Sensor,degC,Analog Input
+VAV-104.ZNT_SP,VAV-104,Zone Temperature Setpoint,Setpoint,degC,Analog Value
+VAV-104.DMP,VAV-104,Damper Position,Command,percent,Analog Output
+VAV-104.FLO,VAV-104,Discharge Airflow,Sensor,L/s,Analog Input
+VAV-104.FLO_SP,VAV-104,Airflow Setpoint,Setpoint,L/s,Analog Value
+VAV-104.RHC,VAV-104,Reheat Valve Position,Command,percent,Analog Output
+VAV-105.ZNT,VAV-105,Zone Temperature,Sensor,degC,Analog Input
+VAV-105.ZNT_SP,VAV-105,Zone Temperature Setpoint,Setpoint,degC,Analog Value
+VAV-105.DMP,VAV-105,Damper Position,Command,percent,Analog Output
+VAV-105.FLO,VAV-105,Discharge Airflow,Sensor,L/s,Analog Input
+VAV-105.FLO_SP,VAV-105,Airflow Setpoint,Setpoint,L/s,Analog Value
+VAV-105.RHC,VAV-105,Reheat Valve Position,Command,percent,Analog Output
+CHW.S.T,CHW_Plant,Chilled Water Supply Temp,Sensor,degC,Analog Input
+CHW.R.T,CHW_Plant,Chilled Water Return Temp,Sensor,degC,Analog Input
+CHIL1.STS,Chiller-1,Chiller Status,Status,On/Off,Binary Input
+CHWP1.STS,CHW_Pump-1,Chilled Water Pump Status,Status,On/Off,Binary Input
+HW.S.T,HW_Plant,Hot Water Supply Temp,Sensor,degC,Analog Input
+HW.R.T,HW_Plant,Hot Water Return Temp,Sensor,degC,Analog Input
+BOIL1.STS,Boiler-1,Boiler Status,Status,On/Off,Binary Input
+HWP1.STS,HW_Pump-1,Hot Water Pump Status,Status,On/Off,Binary Input
+BLDG.ELEC.KW,Building,Total Electric Power,Sensor,kW,Analog Input
+HVAC.ELEC.KW,Building,HVAC Electric Power,Sensor,kW,Analog Input
