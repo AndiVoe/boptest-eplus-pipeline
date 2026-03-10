@@ -1,0 +1,269 @@
+{
+    "metadata": {
+        "model_type": "3R1C",
+        "description": "3-Resistance, 1-Capacitance thermal network per zone.",
+        "components": {
+            "R_env": "Thermal resistance of the building envelope (walls/windows)",
+            "R_int": "Thermal resistance between internal air and internal mass",
+            "R_vent": "Thermal resistance of ventilation/infiltration air exchange",
+            "C_air": "Thermal capacitance of the zone air volume"
+        }
+    },
+    "zones": {
+        "Zone_VAV-101": {
+            "fed_by": [
+                "VAV-101"
+            ],
+            "states": {
+                "T_z": {
+                    "description": "Zone Air Temperature",
+                    "initial_value": 20.0
+                }
+            },
+            "parameters": {
+                "R_env": {
+                    "value": 0.05,
+                    "bounds": [
+                        0.01,
+                        0.2
+                    ],
+                    "unit": "K/W"
+                },
+                "R_int": {
+                    "value": 0.01,
+                    "bounds": [
+                        0.001,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "R_vent": {
+                    "value": 0.02,
+                    "bounds": [
+                        0.005,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "C_air": {
+                    "value": 500000.0,
+                    "bounds": [
+                        100000.0,
+                        5000000.0
+                    ],
+                    "unit": "J/K"
+                }
+            },
+            "inputs": {
+                "T_out": "Outside Air Temperature (Weather)",
+                "Q_hvac": "Heating/Cooling thermal power from ['VAV-101']",
+                "Q_int": "Internal thermal gains (occupants, equipment)",
+                "Q_sol": "Solar irradiance gains"
+            }
+        },
+        "Zone_VAV-102": {
+            "fed_by": [
+                "VAV-102"
+            ],
+            "states": {
+                "T_z": {
+                    "description": "Zone Air Temperature",
+                    "initial_value": 20.0
+                }
+            },
+            "parameters": {
+                "R_env": {
+                    "value": 0.05,
+                    "bounds": [
+                        0.01,
+                        0.2
+                    ],
+                    "unit": "K/W"
+                },
+                "R_int": {
+                    "value": 0.01,
+                    "bounds": [
+                        0.001,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "R_vent": {
+                    "value": 0.02,
+                    "bounds": [
+                        0.005,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "C_air": {
+                    "value": 500000.0,
+                    "bounds": [
+                        100000.0,
+                        5000000.0
+                    ],
+                    "unit": "J/K"
+                }
+            },
+            "inputs": {
+                "T_out": "Outside Air Temperature (Weather)",
+                "Q_hvac": "Heating/Cooling thermal power from ['VAV-102']",
+                "Q_int": "Internal thermal gains (occupants, equipment)",
+                "Q_sol": "Solar irradiance gains"
+            }
+        },
+        "Zone_VAV-103": {
+            "fed_by": [
+                "VAV-103"
+            ],
+            "states": {
+                "T_z": {
+                    "description": "Zone Air Temperature",
+                    "initial_value": 20.0
+                }
+            },
+            "parameters": {
+                "R_env": {
+                    "value": 0.05,
+                    "bounds": [
+                        0.01,
+                        0.2
+                    ],
+                    "unit": "K/W"
+                },
+                "R_int": {
+                    "value": 0.01,
+                    "bounds": [
+                        0.001,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "R_vent": {
+                    "value": 0.02,
+                    "bounds": [
+                        0.005,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "C_air": {
+                    "value": 500000.0,
+                    "bounds": [
+                        100000.0,
+                        5000000.0
+                    ],
+                    "unit": "J/K"
+                }
+            },
+            "inputs": {
+                "T_out": "Outside Air Temperature (Weather)",
+                "Q_hvac": "Heating/Cooling thermal power from ['VAV-103']",
+                "Q_int": "Internal thermal gains (occupants, equipment)",
+                "Q_sol": "Solar irradiance gains"
+            }
+        },
+        "Zone_VAV-104": {
+            "fed_by": [
+                "VAV-104"
+            ],
+            "states": {
+                "T_z": {
+                    "description": "Zone Air Temperature",
+                    "initial_value": 20.0
+                }
+            },
+            "parameters": {
+                "R_env": {
+                    "value": 0.05,
+                    "bounds": [
+                        0.01,
+                        0.2
+                    ],
+                    "unit": "K/W"
+                },
+                "R_int": {
+                    "value": 0.01,
+                    "bounds": [
+                        0.001,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "R_vent": {
+                    "value": 0.02,
+                    "bounds": [
+                        0.005,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "C_air": {
+                    "value": 500000.0,
+                    "bounds": [
+                        100000.0,
+                        5000000.0
+                    ],
+                    "unit": "J/K"
+                }
+            },
+            "inputs": {
+                "T_out": "Outside Air Temperature (Weather)",
+                "Q_hvac": "Heating/Cooling thermal power from ['VAV-104']",
+                "Q_int": "Internal thermal gains (occupants, equipment)",
+                "Q_sol": "Solar irradiance gains"
+            }
+        },
+        "Zone_VAV-105": {
+            "fed_by": [
+                "VAV-105"
+            ],
+            "states": {
+                "T_z": {
+                    "description": "Zone Air Temperature",
+                    "initial_value": 20.0
+                }
+            },
+            "parameters": {
+                "R_env": {
+                    "value": 0.05,
+                    "bounds": [
+                        0.01,
+                        0.2
+                    ],
+                    "unit": "K/W"
+                },
+                "R_int": {
+                    "value": 0.01,
+                    "bounds": [
+                        0.001,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "R_vent": {
+                    "value": 0.02,
+                    "bounds": [
+                        0.005,
+                        0.1
+                    ],
+                    "unit": "K/W"
+                },
+                "C_air": {
+                    "value": 500000.0,
+                    "bounds": [
+                        100000.0,
+                        5000000.0
+                    ],
+                    "unit": "J/K"
+                }
+            },
+            "inputs": {
+                "T_out": "Outside Air Temperature (Weather)",
+                "Q_hvac": "Heating/Cooling thermal power from ['VAV-105']",
+                "Q_int": "Internal thermal gains (occupants, equipment)",
+                "Q_sol": "Solar irradiance gains"
+            }
+        }
+    }
+}
