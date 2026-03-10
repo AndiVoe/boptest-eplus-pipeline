@@ -204,3 +204,26 @@ class BopTestClient:
         resp = requests.get(f"{self.url}/forecast_points/{self.testid}", timeout=60)
         resp.raise_for_status()
         return resp.json().get("payload", {})
+
+    def get_forecast(self, point_names: list, horizon: float, interval: float) -> pd.DataFrame:
+        """
+        Retrieve forecast data for specific points over a future horizon.
+        Args:
+            point_names: List of forecast point names (e.g. ['TDryBul', 'HGloHor']).
+            horizon: Forecast horizon in seconds.
+            interval: Data interval in seconds.
+        """
+        self._check_testid()
+        resp = requests.put(
+            f"{self.url}/forecast/{self.testid}",
+            json={
+                "point_names": point_names,
+                "horizon": horizon,
+                "interval": interval,
+            },
+            timeout=300,
+        )
+        resp.raise_for_status()
+        payload = resp.json().get("payload", {})
+        return pd.DataFrame(payload)
+
