@@ -1,0 +1,35 @@
+============================================================
+ PHASE 3: HYBRID VIRTUAL IN-SITU CALIBRATION BENCHMARK
+============================================================
+Loaded 24 timesteps of 15-minute BopTest data.
+Target variable: Zone Temperature (T_z)
+
+>>> Starting Engine A (SciPy L-BFGS-B)...
+--- Engine A: SciPy L-BFGS-B Calibration ---
+Initial MSE (Seed Params): 109.7372
+Calibration finished in 0.007 seconds.
+Final MSE: 3.0070
+Success: True (CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH)
+Calibrated R_env:  0.2000 K/W (Bounds: (0.01, 0.2))
+Calibrated R_int:  0.0100 K/W (Bounds: (0.001, 0.1))
+Calibrated R_vent: 0.1000 K/W (Bounds: (0.005, 0.1))
+Calibrated C_air:  500000 J/K (Bounds: (100000.0, 5000000.0))
+
+>>> Starting Engine B (PyTorch Adam)...
+--- Engine B: PyTorch Adam Calibration ---
+Calibration finished in 7.972 seconds.
+Final MSE: 0.0367
+Calibrated R_env:  0.1922 K/W (Bounds: [0.01, 0.2])
+Calibrated R_int:  0.0505 K/W (Bounds: [0.001, 0.1])
+Calibrated R_vent: 0.0961 K/W (Bounds: [0.005, 0.1])
+Calibrated C_air:  1116937 J/K (Bounds: [100000.0, 5000000.0])
+
+============================================================
+ DUAL-ENGINE BENCHMARK RESULTS
+============================================================
+        Engine Time (s) Final MSE CVRMSE (%) NMBE (%) R_env (K/W) C_air (J/K)
+SciPy L-BFGS-B    0.007    3.0070      10.65    -8.94      0.2000      500000
+  PyTorch Adam    7.972    0.0367       1.18     0.50      0.1922     1116937
+------------------------------------------------------------
+ASHRAE Thresholds: CVRMSE <= 30%, NMBE <= +-10%
+============================================================
