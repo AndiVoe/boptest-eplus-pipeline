@@ -82,21 +82,29 @@ class BopTestClient:
         # The API returns the status as a quoted string in a JSON response
         # or sometimes just a string. requests.json() might fail if it's just "Running".
         try:
-            return resp.json()
-        except:
-            return resp.text.strip('"')
+            data = resp.json()
+            if isinstance(data, dict):
+                status = data.get("payload", data.get("status", "Unknown"))
+                # print(f"[BopTestClient] Status Payload: {status}") # Too verbose
+                return status
+            return data
+        except Exception as e:
+            text = resp.text.strip('"')
+            # print(f"[BopTestClient] Status Raw: {text}")
+            return text
 
     def wait_for_status(self, desired_status: str, timeout: int = 300):
         """Wait for the test to reach a certain status."""
         import time
         print(f"[BopTestClient] Waiting for status '{desired_status}' ...")
         start_time = time.time()
-        while time.time() - start_time < timeout:
+        while (time.time() - start_time) < timeout:
             status = self.get_status()
+            print(f"[BopTestClient] Current status: '{status}' (Waiting for '{desired_status}')")
             if status == desired_status:
                 print(f"[BopTestClient] Status reached: {status}")
                 return
-            time.sleep(2)
+            time.sleep(5)
         raise TimeoutError(f"Timed out waiting for status '{desired_status}'")
 
     def get_test_case_name(self) -> str:
