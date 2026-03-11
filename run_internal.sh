@@ -17,10 +17,13 @@ docker cp src/mpc/controller.py $CONTAINER:$WORKER_DIR/src/mpc/
 docker cp src/mpc/closed_loop_runner.py $CONTAINER:$WORKER_DIR/src/mpc/
 docker cp data/models/rc_3r1c_template.json $CONTAINER:$WORKER_DIR/data/models/
 
-# 3. Copy specialized FMUs if needed (Copenhagen)
+# 3. Copy specialized FMUs if needed
 if [ "$MODEL" == "singlezone_commercial_hydronic" ]; then
     echo "Copying Copenhagen FMU..."
     docker cp ../project1-boptest/testcases/singlezone_commercial_hydronic/models/wrapped.fmu $CONTAINER:$WORKER_DIR/models/singlezone_commercial_hydronic.fmu
+elif [ "$MODEL" == "multizone_office_simple_air" ]; then
+    echo "Copying Multizone Office FMU..."
+    docker cp ../project1-boptest/testcases/multizone_office_simple_air/models/wrapped.fmu $CONTAINER:$WORKER_DIR/models/multizone_office_simple_air.fmu
 fi
 
 # 4. Create dummy __init__.py for module resolution
