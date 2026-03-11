@@ -83,6 +83,8 @@ def optimize_trajectory(
     Q_sol_f_list: list, 
     Q_int_f_list: list, 
     params_list: list,
+    R_ij_matrix: np.ndarray = None,
+    L_ij_matrix: np.ndarray = None,
     dt: float = 900.0,
     epochs: int = 100
 ) -> (np.ndarray, np.ndarray):
@@ -94,11 +96,14 @@ def optimize_trajectory(
         Q_sol_f_list: List of solar gain forecasts for N zones.
         Q_int_f_list: List of internal gain forecasts for N zones.
         params_list: List of dicts with R_env, R_vent, C_air for N zones.
+        R_ij_matrix: (N_zones, N_zones) matrix of inter-zonal resistances.
+        L_ij_matrix: (N_zones, N_zones) pre-computed Laplacian matrix.
     Returns:
         q_hvac_opt: (N_zones, horizon)
         t_z_opt: (N_zones, horizon)
     """
     if not HAS_TORCH:
+        # NumPy fallback doesn't support coupling yet - it will treat zones as independent
         return optimize_trajectory_multizone_numpy(
             T_init_list, T_out_f, Q_sol_f_list, Q_int_f_list, params_list, dt, epochs
         )
@@ -111,6 +116,17 @@ def optimize_trajectory(
     R_vent = torch.tensor([p.get('R_vent', 1e9) for p in params_list], dtype=torch.float32)
     C_air = torch.tensor([p['C_air'] for p in params_list], dtype=torch.float32)
     inv_R_eq = (1.0 / R_env) + (1.0 / R_vent)
+
+    # Coupling Matrix (Admittance Laplacian)
+    if L_ij_matrix is not None:
+        L_ij = torch.tensor(L_ij_matrix, dtype=torch.float32)
+    elif R_ij_matrix is not None:
+        G_ij = torch.tensor(1.0 / R_ij_matrix, dtype=torch.float32)
+        G_ij[torch.isinf(G_ij)] = 0.0
+        row_sums = torch.sum(G_ij, dim=1)
+        L_ij = torch.diag(row_sums) - G_ij
+    else:
+        L_ij = torch.zeros(n_zones, n_zones)
 
     class MultiZoneMPC(nn.Module):
         def __init__(self, n_zones, horizon):
@@ -127,7 +143,9 @@ def optimize_trajectory(
             T_curr = T_init # (n_zones,)
             for t in range(horizon):
                 # Vectorized physics update for all zones simultaneously
-                Q_tot = Q_hvac[:, t] + Q_sol[:, t] + Q_int[:, t]
+                # Q_coupling = -L_ij * T_curr
+                Q_couple = -torch.mv(L_ij, T_curr)
+                Q_tot = Q_hvac[:, t] + Q_sol[:, t] + Q_int[:, t] + Q_couple
                 dT_dt = ((T_out[t] - T_curr) * inv_R_eq + Q_tot) / C_air
                 T_next = T_curr + dT_dt * dt
                 T_z.append(T_next)

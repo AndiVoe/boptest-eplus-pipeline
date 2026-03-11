@@ -174,6 +174,7 @@ def run_closed_loop():
         Q_sol_f_base = forecast_df[forecast_df.columns[forecast_df.columns.str.contains('HGloHor')][0]].values 
         
         # Multizone Gain Mapping
+        L_ij_matrix = None
         if args.model == "multizone_office_simple_air":
             # Scale solar gains by orientation (placeholders)
             Q_sol_f_list = [
@@ -184,8 +185,25 @@ def run_closed_loop():
                 Q_sol_f_base * 0.1   # Cor
             ]
             Q_int_f_list = [np.ones_like(T_out_f) * 500.0] * 5
-            params_to_use = calibrated_params
+            
+            # Identified Parameters (Phase 8 System ID)
+            params_to_use = [
+                {'R_env': 0.0195, 'C_air': 1.0e7},
+                {'R_env': 0.0218, 'C_air': 1.0e7},
+                {'R_env': 0.0224, 'C_air': 1.0e7},
+                {'R_env': 0.0216, 'C_air': 1.0e7},
+                {'R_env': 0.0196, 'C_air': 1.0e7}
+            ]
             T_init_to_use = T_z_celsius
+            
+            # Identified Laplacian Coupling Matrix
+            L_ij_matrix = np.array([
+                [ 1.8478, -0.0004, -0.2124, -0.0000, -1.6349],
+                [-0.0004,  0.8858, -0.3862, -0.4990, -0.0002],
+                [-0.2124, -0.3862,  0.6250, -0.0005, -0.0258],
+                [-0.0000, -0.4990, -0.0005,  0.4996, -0.0001],
+                [-1.6349, -0.0002, -0.0258, -0.0001,  1.6611]
+            ])
         else:
             Q_sol_f_list = [Q_sol_f_base]
             Q_int_f_list = [np.ones_like(T_out_f) * 82.56]
@@ -198,6 +216,7 @@ def run_closed_loop():
             Q_sol_f_list=Q_sol_f_list,
             Q_int_f_list=Q_int_f_list,
             params_list=params_to_use,
+            L_ij_matrix=L_ij_matrix,
             dt=dt,
             epochs=100
         )
