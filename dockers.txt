@@ -1,8 +1,0 @@
-CONTAINER ID   IMAGE                                      COMMAND                  CREATED      STATUS                      PORTS                                                             NAMES
-6d32dba6d609   project1-boptest-test                      "pytest test_websock…"   4 days ago   Exited (0) 10 minutes ago                                                                     project1-boptest-test-1
-e4323bf32e2f   project1-boptest-provision                 "python3 -m boptest_…"   4 days ago   Exited (0) 12 minutes ago                                                                     project1-boptest-provision-1
-1710ba9f3875   project1-boptest-web                       "npm start"              4 days ago   Up 2 days                   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp                       project1-boptest-web-1
-a5db4a9f8823   project1-boptest-worker                    "/bin/sh -c '. minic…"   4 days ago   Up 2 days                                                                                     project1-boptest-worker-1
-a31d8a23f38c   minio/mc:RELEASE.2025-04-16T18-13-26Z      "/bin/sh -c ' sleep …"   4 days ago   Exited (1) 13 minutes ago                                                                     project1-boptest-mc-1
-511bb66ae56c   redis                                      "docker-entrypoint.s…"   4 days ago   Up 2 days                   6379/tcp                                                          project1-boptest-redis-1
-511408dc509e   minio/minio:RELEASE.2025-04-22T22-12-26Z   "minio server /data …"   4 days ago   Up 2 days                   0.0.0.0:9000-9001->9000-9001/tcp, [::]:9000-9001->9000-9001/tcp   project1-boptest-minio-1

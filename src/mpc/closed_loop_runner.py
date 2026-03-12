@@ -18,7 +18,19 @@ import argparse
 class BoptestTestCase:
     """Wrapper to make internal TestCase look like BopTestClient for the runner."""
     def __init__(self, fmu_path, forecast_path):
-        from boptest.lib.testcase import TestCase
+        try:
+            from boptest.lib.testcase import TestCase
+        except ImportError:
+            try:
+                from testcase import TestCase
+            except ImportError:
+                # Add project1-boptest to path if not already there
+                import sys
+                import os
+                boptest_root = "C:\\Users\\AVoelser\\<username>\\...\\project1-boptest" # Placeholder logic
+                # We'll rely on PYTHONPATH being set correctly in the runner or dynamic detection
+                from testcase import TestCase
+        
         # Provide explicit paths to bypass directory resolution errors
         self.tc = TestCase(fmupath=fmu_path, forecast_uncertainty_params_path=forecast_path)
         self.testid = "direct_sim"
