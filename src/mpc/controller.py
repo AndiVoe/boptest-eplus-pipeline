@@ -14,7 +14,9 @@ def optimize_trajectory_multizone_numpy(
     Q_int_forecast_list: list, 
     params_list: list,
     dt_seconds: float = 900.0,
-    epochs: int = 100
+    epochs: int = 100,
+    alpha_energy: float = 1e-4,
+    beta_comfort: float = 100.0
 ) -> (list, list):
     """
     NumPy fallback for multi-zone optimization.
@@ -27,7 +29,8 @@ def optimize_trajectory_multizone_numpy(
     for i in range(n_zones):
         q, t = optimize_trajectory_numpy(
             T_init_list[i], T_out_forecast, Q_sol_forecast_list[i],
-            Q_int_forecast_list[i], params_list[i], dt_seconds, epochs
+            Q_int_forecast_list[i], params_list[i], dt_seconds, epochs,
+            alpha_energy, beta_comfort
         )
         q_opts.append(q)
         t_opts.append(t)
@@ -41,7 +44,9 @@ def optimize_trajectory_numpy(
     Q_int_f: np.ndarray, 
     params: dict,
     dt: float = 900.0,
-    epochs: int = 150
+    epochs: int = 150,
+    alpha_energy: float = 1e-4,
+    beta_comfort: float = 100.0
 ) -> (np.ndarray, np.ndarray):
     horizon = len(T_out_f)
     R_env = params['R_env']
@@ -51,8 +56,6 @@ def optimize_trajectory_numpy(
     
     q_hvac = np.zeros(horizon)
     lr = 500.0
-    alpha_energy = 1e-4
-    beta_comfort = 100.0
     T_min = 21.0
     T_max = 24.0
     
@@ -86,7 +89,9 @@ def optimize_trajectory(
     R_ij_matrix: np.ndarray = None,
     L_ij_matrix: np.ndarray = None,
     dt: float = 900.0,
-    epochs: int = 100
+    epochs: int = 100,
+    alpha_energy: float = 1e-4,
+    beta_comfort: float = 100.0
 ) -> (np.ndarray, np.ndarray):
     """
     Main entry point for multi-zone optimization.
@@ -105,7 +110,8 @@ def optimize_trajectory(
     if not HAS_TORCH:
         # NumPy fallback doesn't support coupling yet - it will treat zones as independent
         return optimize_trajectory_multizone_numpy(
-            T_init_list, T_out_f, Q_sol_f_list, Q_int_f_list, params_list, dt, epochs
+            T_init_list, T_out_f, Q_sol_f_list, Q_int_f_list, params_list, dt, epochs,
+            alpha_energy, beta_comfort
         )
 
     n_zones = len(T_init_list)
@@ -172,7 +178,7 @@ def optimize_trajectory(
         penalty_hot = torch.nn.functional.relu(T_pred - 24.0)
         cost_comfort = torch.mean(penalty_cold ** 2 + penalty_hot ** 2)
         
-        loss = 1e-4 * cost_energy + 100.0 * cost_comfort
+        loss = alpha_energy * cost_energy + beta_comfort * cost_comfort
         loss.backward()
         optimizer.step()
         

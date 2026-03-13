@@ -1,0 +1,8 @@
+{
+    "sensors": [],
+    "actuators": [],
+    "metadata": {
+        "source_idf": "Model_Thesis_MPC_Optimized.idf",
+        "generated_by": "Antigravity Auto-Mapper"
+    }
+}

@@ -148,6 +148,29 @@ class BopTestClient:
         resp.raise_for_status()
         return resp.json()
 
+    def set_scenario(self, scenario: str) -> dict:
+        """
+        Set the simulation scenario (time period).
+        Args:
+            scenario: Name of the scenario (e.g. 'typical_heat_day').
+        """
+        self._check_testid()
+        # BopTest API expects a dictionary with scenario params
+        data = {
+            "time_period": scenario,
+            "electricity_price": "constant",
+            "temperature_uncertainty": None,
+            "solar_uncertainty": None,
+            "seed": None
+        }
+        resp = requests.put(
+            f"{self.url}/scenario/{self.testid}",
+            json=data,
+            timeout=300
+        )
+        resp.raise_for_status()
+        return resp.json().get("payload", {})
+
     def advance(self, control_inputs: Optional[dict] = None) -> dict:
         """Advance the simulation by one step."""
         self._check_testid()

@@ -78,6 +78,8 @@ def run_closed_loop():
     parser.add_argument("--testid", type=str, default=None)
     parser.add_argument("--scenario", type=str, default=None, help="BopTest scenario (e.g., typical_heat_day)")
     parser.add_argument("--model", type=str, default="bestest_air", help="BopTest model name")
+    parser.add_argument("--alpha", type=float, default=1e-4, help="Energy weight")
+    parser.add_argument("--beta", type=float, default=100.0, help="Comfort weight")
     args = parser.parse_args()
 
     print(f"Starting run_closed_loop for model: {args.model}")
@@ -230,7 +232,9 @@ def run_closed_loop():
             params_list=params_to_use,
             L_ij_matrix=L_ij_matrix,
             dt=dt,
-            epochs=100
+            epochs=100,
+            alpha_energy=args.alpha,
+            beta_comfort=args.beta
         )
         
         control_action = {}
