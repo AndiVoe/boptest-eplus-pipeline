@@ -21,34 +21,30 @@ def instrument_idf(idf_path):
         content = header + content
 
     # 2. Find Thermostat Setpoints (Dual Setpoint)
-    # Pattern: ThermostatSetpoint:DualSetpoint, <Name>, <HeatSch>, <CoolSch>
-    # Note: This is an approximation for text-based IDFs. 
-    # Proper EPlus parsing would be better, but we are in a no-EPlus environment.
-    
     dual_sp_pattern = re.compile(r"ThermostatSetpoint:DualSetpoint,\s*([^,]+),\s*([^,]+),\s*([^;]+);", re.IGNORECASE)
-    matches = dual_sp_pattern.findall(content)
+    matches_sp = dual_sp_pattern.findall(content)
     
     instr_count = 0
-    for name, heat_sch, cool_sch in matches:
+    for name, heat_sch, cool_sch in matches_sp:
         name = name.strip()
         heat_sch = heat_sch.strip()
         cool_sch = cool_sch.strip()
-        
         print(f"  📍 Found Thermostat: {name}")
-        
-        # Inject ExternalInterface:Schedule for both
-        ext_sch_heat = f"\nExternalInterface:Schedule,\n    {heat_sch}_Ext,\n    AnyNumber,\n    {heat_sch};  !- Initial Value\n"
-        ext_sch_cool = f"\nExternalInterface:Schedule,\n    {cool_sch}_Ext,\n    AnyNumber,\n    {cool_sch};  !- Initial Value\n"
-        
-        content += ext_sch_heat
-        content += ext_sch_cool
-        
-        # We also need to 'Cut the Wires' in the DualSetpoint object itself
-        # However, replacing the schedule names directly is easier:
-        content = content.replace(heat_sch + ",", heat_sch + "_Ext,", 1) # This is risky with common names
-        # Safer: Replace within the object context
-        # Skipping complex object replacement in this MVP text-parser.
-        
+        content += f"\nExternalInterface:Schedule,\n    {heat_sch}_Ext,\n    AnyNumber,\n    {heat_sch};  !- Initial Value\n"
+        content += f"\nExternalInterface:Schedule,\n    {cool_sch}_Ext,\n    AnyNumber,\n    {cool_sch};  !- Initial Value\n"
+        instr_count += 2
+
+    # 3. Find Zones and Inject Sensors
+    zone_pattern = re.compile(r"Zone,\s*([^,;]+)", re.IGNORECASE)
+    zones = zone_pattern.findall(content)
+    
+    for zone in zones:
+        zone = zone.strip()
+        print(f"  🌡️  Adding Sensor Hook for Zone: {zone}")
+        # Inject the Output:Variable if not present
+        content += f"\nOutput:Variable, {zone}, Zone Air Temperature, Hourly;\n"
+        # Inject the ExternalInterface:Variable
+        content += f"\nExternalInterface:Variable, {zone}_Temp, {zone}, Zone Air Temperature;\n"
         instr_count += 1
 
     output_path = idf_path.replace(".idf", "_instrumented.idf")

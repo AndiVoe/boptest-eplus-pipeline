@@ -62,6 +62,19 @@ def auto_map_idf(idf_path):
                     "unit": "K" # Defaulting to Kelvin for thermal actuators
                 })
 
+        elif obj_type == "externalinterface:schedule":
+            # [Name, Schedule Type Limits Name, Initial Value]
+            if len(fields) >= 2:
+                name = fields[1]
+                actuators.append({
+                    "boptest_name": f"ove{name}",
+                    "idf_name": name,
+                    "description": f"Schedule-based override for {name}",
+                    "min": 288.15,
+                    "max": 303.15,
+                    "unit": "K" # Defaulting to Kelvin
+                })
+
     mapping = {
         "sensors": sensors,
         "actuators": actuators,

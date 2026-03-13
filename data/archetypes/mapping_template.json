@@ -1,8 +1,361 @@
 {
-    "sensors": [],
-    "actuators": [],
+    "sensors": [
+        {
+            "boptest_name": "reaBasement_Temp",
+            "idf_name": "Basement_Temp",
+            "description": "Sensor for Basement_Temp"
+        },
+        {
+            "boptest_name": "reaCore_bot_Temp",
+            "idf_name": "Core_bot_Temp",
+            "description": "Sensor for Core_bot_Temp"
+        },
+        {
+            "boptest_name": "reaCore_mid_Temp",
+            "idf_name": "Core_mid_Temp",
+            "description": "Sensor for Core_mid_Temp"
+        },
+        {
+            "boptest_name": "reaCore_top_Temp",
+            "idf_name": "Core_top_Temp",
+            "description": "Sensor for Core_top_Temp"
+        },
+        {
+            "boptest_name": "reaPlenum_bot_Temp",
+            "idf_name": "Plenum_bot_Temp",
+            "description": "Sensor for Plenum_bot_Temp"
+        },
+        {
+            "boptest_name": "reaPlenum_mid_Temp",
+            "idf_name": "Plenum_mid_Temp",
+            "description": "Sensor for Plenum_mid_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_bot_ZN_1_Temp",
+            "idf_name": "Perimeter_bot_ZN_1_Temp",
+            "description": "Sensor for Perimeter_bot_ZN_1_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_bot_ZN_2_Temp",
+            "idf_name": "Perimeter_bot_ZN_2_Temp",
+            "description": "Sensor for Perimeter_bot_ZN_2_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_bot_ZN_3_Temp",
+            "idf_name": "Perimeter_bot_ZN_3_Temp",
+            "description": "Sensor for Perimeter_bot_ZN_3_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_bot_ZN_4_Temp",
+            "idf_name": "Perimeter_bot_ZN_4_Temp",
+            "description": "Sensor for Perimeter_bot_ZN_4_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_mid_ZN_1_Temp",
+            "idf_name": "Perimeter_mid_ZN_1_Temp",
+            "description": "Sensor for Perimeter_mid_ZN_1_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_mid_ZN_2_Temp",
+            "idf_name": "Perimeter_mid_ZN_2_Temp",
+            "description": "Sensor for Perimeter_mid_ZN_2_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_mid_ZN_3_Temp",
+            "idf_name": "Perimeter_mid_ZN_3_Temp",
+            "description": "Sensor for Perimeter_mid_ZN_3_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_mid_ZN_4_Temp",
+            "idf_name": "Perimeter_mid_ZN_4_Temp",
+            "description": "Sensor for Perimeter_mid_ZN_4_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_top_ZN_1_Temp",
+            "idf_name": "Perimeter_top_ZN_1_Temp",
+            "description": "Sensor for Perimeter_top_ZN_1_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_top_ZN_2_Temp",
+            "idf_name": "Perimeter_top_ZN_2_Temp",
+            "description": "Sensor for Perimeter_top_ZN_2_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_top_ZN_3_Temp",
+            "idf_name": "Perimeter_top_ZN_3_Temp",
+            "description": "Sensor for Perimeter_top_ZN_3_Temp"
+        },
+        {
+            "boptest_name": "reaPerimeter_top_ZN_4_Temp",
+            "idf_name": "Perimeter_top_ZN_4_Temp",
+            "description": "Sensor for Perimeter_top_ZN_4_Temp"
+        },
+        {
+            "boptest_name": "reaPlenum_top_Temp",
+            "idf_name": "Plenum_top_Temp",
+            "description": "Sensor for Plenum_top_Temp"
+        }
+    ],
+    "actuators": [
+        {
+            "boptest_name": "oveCore_bot Thermostat_Ext",
+            "idf_name": "Core_bot Thermostat_Ext",
+            "description": "Schedule-based override for Core_bot Thermostat_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCore_bot",
+            "idf_name": "Core_bot",
+            "description": "Schedule-based override for Core_bot",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveHTGSETP_SCH_Ext",
+            "idf_name": "HTGSETP_SCH_Ext",
+            "description": "Schedule-based override for HTGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        },
+        {
+            "boptest_name": "oveCLGSETP_SCH_Ext",
+            "idf_name": "CLGSETP_SCH_Ext",
+            "description": "Schedule-based override for CLGSETP_SCH_Ext",
+            "min": 288.15,
+            "max": 303.15,
+            "unit": "K"
+        }
+    ],
     "metadata": {
-        "source_idf": "Model_Thesis_MPC_Optimized.idf",
+        "source_idf": "wholebuilding96_spawn_instrumented.idf",
         "generated_by": "Antigravity Auto-Mapper"
     }
 }
