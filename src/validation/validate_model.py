@@ -143,6 +143,9 @@ def compare_and_plot(
         f"CVRMSE={summary['cvrmse_pct']:.1f}%  |  "
         f"NMBE={summary['nmbe_pct']:.1f}%  |  {status}"
     )
+    y_all = pd.concat([combined["ref"], combined["sim"]], axis=0)
+    y_pad = max(0.2, 0.1 * max(float(y_all.max() - y_all.min()), 0.5))
+    ax1.set_ylim(float(y_all.min()) - y_pad, float(y_all.max()) + y_pad)
     ax1.legend()
     ax1.grid(True, alpha=0.3)
 
@@ -153,6 +156,14 @@ def compare_and_plot(
     ax2.set_ylabel("Residual")
     ax2.set_xlabel("Time")
     ax2.grid(True, alpha=0.3)
+    r_pad = max(0.1, 0.1 * max(float(residuals.max() - residuals.min()), 0.5))
+    ax2.set_ylim(float(residuals.min()) - r_pad, float(residuals.max()) + r_pad)
+
+    fig.suptitle(
+        f"n={len(combined)} | Value range={y_all.min():.2f}..{y_all.max():.2f} | Residual range={residuals.min():.2f}..{residuals.max():.2f}",
+        fontsize=9,
+        y=0.995,
+    )
 
     fig.tight_layout()
     safe_label = label.replace(" ", "_").replace("/", "_")[:30]

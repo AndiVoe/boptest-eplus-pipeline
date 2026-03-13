@@ -1,0 +1,22 @@
+{
+    "code": "IT.N.SFH.07.Gen",
+    "country": "Italy",
+    "type": "Single Family House",
+    "year_range": "1976-1990",
+    "geometry": {
+        "floor_area_m2": 150.0,
+        "surface_area_envelope_m2": 320.0,
+        "window_area_m2": 25.0
+    },
+    "envelope_u_values": {
+        "wall": 0.58,
+        "roof": 0.42,
+        "floor": 0.65,
+        "window": 2.80
+    },
+    "thermal_mass": "Medium",
+    "hvac": {
+        "heating_system": "Boiler",
+        "cooling_system": "None"
+    }
+}

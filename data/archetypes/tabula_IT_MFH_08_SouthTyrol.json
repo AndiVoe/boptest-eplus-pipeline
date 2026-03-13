@@ -1,0 +1,22 @@
+{
+    "code": "IT.N.MFH.08.Gen",
+    "country": "Italy (South Tyrol Context)",
+    "type": "Multi Family House",
+    "year_range": "1991-2005",
+    "geometry": {
+        "floor_area_m2": 450.0,
+        "surface_area_envelope_m2": 850.0,
+        "window_area_m2": 65.0
+    },
+    "envelope_u_values": {
+        "wall": 0.38,
+        "roof": 0.35,
+        "floor": 0.45,
+        "window": 1.70
+    },
+    "thermal_mass": "Heavy",
+    "hvac": {
+        "heating_system": "Gas Boiler + Radiators",
+        "cooling_system": "None"
+    }
+}

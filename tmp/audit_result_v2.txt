@@ -1,0 +1,14 @@
+﻿
+­ƒÜÇ Running Readiness Audit for: Model_Thesis_MPC_Optimized_instrumented.idf
+Ô£à EnergyPlus Version: 23.2
+ÔØî Construction 'Base External Windows' references missing material 'CLEAR 3MM'
+ÔØî Construction 'Base External Windows' references missing material 'AIR 6MM'
+ÔØî Construction 'Base External Windows' references missing material 'CLEAR 3MM'
+Ô£à Verified 6 constructions and 6 materials.
+Ô£à Verified 28 zones and 208 surfaces.
+ÔÜá´©Å  Zone 'Room_222' has no ZoneControl:Thermostat associated.
+Ô£à Verified 28 thermostat associations.
+Ô£à ExternalInterface found. Building is configured for co-simulation.
+Ôä╣´©Å  Found 0 sensor hooks, 0 actuator hooks, and 68 schedule overrides.
+
+­ƒøæ SUMMARY: Found 3 errors. Fixing required before running EnergyPlus.

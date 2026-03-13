@@ -1,231 +1,33 @@
 {
-  "source_idf": "Model_Thesis_MPC_Optimized.idf",
-  "zone_count": 28,
+  "building_name": "multizone_office_simple_air",
+  "source_boptest": "multizone_office_simple_air",
+  "zone_count": 5,
   "zones": [
     {
-      "name": "Room_211",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 83.1501924397538
+      "name": "Cor",
+      "ceiling_height_m": 3.0,
+      "volume_m3": 997.5960000000001
     },
     {
-      "name": "Room_213",
-      "ceiling_height_m": 3.30000000059956,
-      "volume_m3": 65.7138482996631
+      "name": "Eas",
+      "ceiling_height_m": 3.0,
+      "volume_m3": 997.5960000000001
     },
     {
-      "name": "Room_213bis",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 43.2991074431512
+      "name": "Nor",
+      "ceiling_height_m": 3.0,
+      "volume_m3": 997.5960000000001
     },
     {
-      "name": "Room_214",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 130.986720135253
+      "name": "Sou",
+      "ceiling_height_m": 3.0,
+      "volume_m3": 997.5960000000001
     },
     {
-      "name": "Room_216",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 117.488880044361
-    },
-    {
-      "name": "Room_206",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 91.9428540606751
-    },
-    {
-      "name": "Room_217",
-      "ceiling_height_m": 3.30000000000001,
-      "volume_m3": 90.7210432263351
-    },
-    {
-      "name": "Room_222",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 104.343019082826
-    },
-    {
-      "name": "Room_Abst",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 42.8138582630516
-    },
-    {
-      "name": "Room_Stairs",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 104.946583818697
-    },
-    {
-      "name": "Room_WC1",
-      "ceiling_height_m": 3.30000000000001,
-      "volume_m3": 46.4550951261545
-    },
-    {
-      "name": "Room_207",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 60.5133400763559
-    },
-    {
-      "name": "Room_Lift",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 23.9026212436372
-    },
-    {
-      "name": "Room_Technik",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 83.7861699715945
-    },
-    {
-      "name": "Room_Corridor",
-      "ceiling_height_m": 3.3000000000326,
-      "volume_m3": 872.324387063163
-    },
-    {
-      "name": "Room_220",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 56.207685631832
-    },
-    {
-      "name": "Room_219",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 79.9988809823382
-    },
-    {
-      "name": "Room_223bis",
-      "ceiling_height_m": 3.30000000000001,
-      "volume_m3": 81.3989828280946
-    },
-    {
-      "name": "Room_223",
-      "ceiling_height_m": 3.30000000000001,
-      "volume_m3": 128.289290705961
-    },
-    {
-      "name": "Room_215",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 59.657996351626
-    },
-    {
-      "name": "Room_WC2",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 55.0544872838889
-    },
-    {
-      "name": "Room_225",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 180.162730980784
-    },
-    {
-      "name": "Room_201",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 90.7174814300457
-    },
-    {
-      "name": "Room_202",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 61.1322941689048
-    },
-    {
-      "name": "Room_203",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 61.5030262149397
-    },
-    {
-      "name": "Room_204",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 59.8524278790841
-    },
-    {
-      "name": "Room_205",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 90.754830869757
-    },
-    {
-      "name": "Room_210",
-      "ceiling_height_m": 3.3,
-      "volume_m3": 153.987696731989
+      "name": "Wes",
+      "ceiling_height_m": 3.0,
+      "volume_m3": 997.5960000000001
     }
   ],
-  "material_count": 6,
-  "materials": {
-    "Concr_Rein": {
-      "roughness": "MediumRough",
-      "thickness_m": 0.2032,
-      "conductivity_w_mk": 2.5,
-      "density_kg_m3": 2400.0,
-      "specific_heat_j_kgk": 1000.0
-    },
-    "Conc_Block_HW": {
-      "roughness": "MediumRough",
-      "thickness_m": 0.1524,
-      "conductivity_w_mk": 1.63,
-      "density_kg_m3": 2300.0,
-      "specific_heat_j_kgk": 1000.0
-    },
-    "Mortar_0.02": {
-      "roughness": "MediumRough",
-      "thickness_m": 0.0254,
-      "conductivity_w_mk": 0.72,
-      "density_kg_m3": 1760.0,
-      "specific_heat_j_kgk": 840.0
-    },
-    "Mortar_0.04": {
-      "roughness": "MediumRough",
-      "thickness_m": 0.04,
-      "conductivity_w_mk": 0.082,
-      "density_kg_m3": 350.0,
-      "specific_heat_j_kgk": 1300.0
-    },
-    "Tiles": {
-      "roughness": "MediumRough",
-      "thickness_m": 0.036,
-      "conductivity_w_mk": 2.0,
-      "density_kg_m3": 2700.0,
-      "specific_heat_j_kgk": 753.0
-    },
-    "25mm Wood": {
-      "roughness": "MediumSmooth",
-      "thickness_m": 0.0254,
-      "conductivity_w_mk": 0.15,
-      "density_kg_m3": 608.0,
-      "specific_heat_j_kgk": 1630.0
-    }
-  },
-  "construction_count": 6,
-  "constructions": {
-    "Base External Windows": [
-      "CLEAR 3MM",
-      "AIR 6MM",
-      "CLEAR 3MM"
-    ],
-    "External_Wall": [
-      "Mortar_0.04",
-      "Concr_Rein",
-      "Mortar_0.04"
-    ],
-    "Internal_Ceiling": [
-      "Tiles",
-      "Mortar_0.02",
-      "Concr_Rein",
-      "Mortar_0.02"
-    ],
-    "Internal_Floor": [
-      "Mortar_0.02",
-      "Concr_Rein",
-      "Mortar_0.02",
-      "Tiles"
-    ],
-    "Internal_Wall": [
-      "Mortar_0.02",
-      "Conc_Block_HW",
-      "Mortar_0.02"
-    ],
-    "Interior Door": [
-      "25mm Wood"
-    ]
-  },
-  "calibration_inertia_multipliers": {
-    "2nd_Floor_ZoneList": 15.0,
-    "Room_206": 70.0,
-    "Room_216": 47.0,
-    "Room_222": 43.0,
-    "Room_225": 40.0
-  }
+  "total_area_m2_estimate": 1662.66
 }

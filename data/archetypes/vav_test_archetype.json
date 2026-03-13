@@ -1,0 +1,11 @@
+{
+    "building_name": "VAV_Test_Office",
+    "hvac_type": "VAV",
+    "zones": [
+        {
+            "name": "Zone_VAV_1",
+            "ceiling_height_m": 3.0,
+            "volume_m3": 150.0
+        }
+    ]
+}

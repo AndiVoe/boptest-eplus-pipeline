@@ -95,6 +95,12 @@ def main():
     cvrmse_str = f"{summary['cvrmse_pct']:.1f}%"
     nmbe_str = f"{summary['nmbe_pct']:.1f}%"
     ax1.set_title(f"BESTEST Validation: CVRMSE={cvrmse_str}  |  NMBE={nmbe_str}  |  {overall}  ({len(combined)} hourly points)")
+    # Dynamic y-axis to avoid flattened traces.
+    y_all = pd.concat([ep_window.astype(float), bt_window.astype(float)], axis=0).dropna()
+    if len(y_all) > 0:
+        y_lo, y_hi = float(y_all.min()), float(y_all.max())
+        y_pad = max(0.2, 0.1 * max(y_hi - y_lo, 0.5))
+        ax1.set_ylim(y_lo - y_pad, y_hi + y_pad)
     ax1.legend()
     ax1.grid(True, alpha=0.3)
 
@@ -106,6 +112,16 @@ def main():
     ax2.set_ylabel("Residual (C)")
     ax2.set_xlabel("Time")
     ax2.grid(True, alpha=0.3)
+    if len(residuals) > 0:
+        r_lo, r_hi = float(residuals.min()), float(residuals.max())
+        r_pad = max(0.1, 0.1 * max(r_hi - r_lo, 0.5))
+        ax2.set_ylim(r_lo - r_pad, r_hi + r_pad)
+
+    fig.suptitle(
+        f"Temp range={y_all.min():.2f}..{y_all.max():.2f} C | Residual range={residuals.min():.2f}..{residuals.max():.2f} C",
+        fontsize=9,
+        y=0.995,
+    )
 
     fig.tight_layout()
     fig.savefig(PLOTS / "bestest_validation_6h.png", dpi=150)

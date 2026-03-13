@@ -28,6 +28,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from typing import Optional
 
 try:
     from eppy.modeleditor import IDF
@@ -393,14 +394,9 @@ ElectricEquipment,
 ZoneInfiltration:DesignFlowRate,
     {{ zone.name }}_Infiltration,  !- Name
     {{ zone.name }},         !- Zone or ZoneList or Space or SpaceList Name
-    Always On,               !- Schedule Name
-    AirChanges/Hour,         !- Design Flow Rate Calculation Method
-    ,                        !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
     {{ zone.infiltration_ach }};  !- Air Changes per Hour {1/hr}
 
-! --- HVAC: IdealLoadsAirSystem ---
+! --- HVAC: {{ hvac_type }} System ---
 
 ZoneControl:Thermostat,
     {{ zone.name }} Thermostat,  !- Name
@@ -425,13 +421,93 @@ ZoneHVAC:EquipmentConnections,
 ZoneHVAC:EquipmentList,
     {{ zone.name }} Equipment,  !- Name
     SequentialLoad,          !- Load Distribution Scheme
+    {% if hvac_type == 'Radiant' %}
+    ZoneHVAC:LowTemperatureRadiant:VariableFlow, !- Zone Equipment Object Type
+    {{ zone.name }} Radiant, !- Zone Equipment Name
+    {% elif hvac_type == 'VAV' %}
+    ZoneHVAC:UnitarySystem,  !- Zone Equipment Object Type
+    {{ zone.name }} VAV,     !- Zone Equipment Name
+    {% else %}
     ZoneHVAC:IdealLoadsAirSystem,  !- Zone Equipment Object Type
     {{ zone.name }} Ideal Loads,  !- Zone Equipment Name
+    {% endif %}
     1,                       !- Zone Equipment Cooling Sequence
     1,                       !- Zone Equipment Heating or No-Load Sequence
     ,                        !- Zone Equipment Sequential Cooling Fraction
     ;                        !- Zone Equipment Sequential Heating Fraction
 
+{% if hvac_type == 'Radiant' %}
+ZoneHVAC:LowTemperatureRadiant:VariableFlow,
+    {{ zone.name }} Radiant, !- Name
+    Always On,               !- Availability Schedule Name
+    {{ zone.name }},         !- Zone Name
+    HeatedFloor,             !- Surface Name or Radiant Surface Group Name
+    autocalculate,           !- Hydronic Tubing Inside Diameter {m}
+    autocalculate,           !- Hydronic Tubing Length {m}
+    MeanAirTemperature,      !- Temperature Control Type
+    {{ zone.max_heating_w }},!- Maximum Hot Water Flow {m3/s}
+    {{ zone.name }} Radiant Inlet, !- Heating Water Inlet Node Name
+    {{ zone.name }} Radiant Outlet, !- Heating Water Outlet Node Name
+    2.0,                     !- Heating Control Throttling Range {deltaC}
+    Heating Setpoint Schedule, !- Heating Control Temperature Schedule Name
+    {{ zone.max_cooling_w }},!- Maximum Cold Water Flow {m3/s}
+    {{ zone.name }} Radiant Cooling Inlet, !- Cooling Water Inlet Node Name
+    {{ zone.name }} Radiant Cooling Outlet, !- Cooling Water Outlet Node Name
+    2.0,                     !- Cooling Control Throttling Range {deltaC}
+    Cooling Setpoint Schedule, !- Cooling Control Temperature Schedule Name
+    ,                        !- Condensation Control Type
+    ,                        !- Condensation Control Dewpoint Connection
+    ;                        !- Number of Circuits
+
+{% elif hvac_type == 'VAV' %}
+ZoneHVAC:UnitarySystem,
+    {{ zone.name }} VAV,     !- Name
+    Always On,               !- Availability Schedule Name
+    {{ zone.name }} Supply Inlet,  !- Air Inlet Node Name
+    {{ zone.name }} Air Node, !- Air Outlet Node Name
+    ,                        !- Control Port Node Name
+    Fan:VariableVolume,      !- Supply Fan Object Type
+    {{ zone.name }} Fan,     !- Supply Fan Name
+    ,                        !- Fan Placement
+    ,                        !- Supply Air Fan Operating Mode Schedule Name
+    Coil:Heating:Electric,   !- Heating Coil Object Type
+    {{ zone.name }} HeatCoil, !- Heating Coil Name
+    ,                        !- DX Heating Coil Quarterly Outage Fraction
+    ,                        !- DX Heating Coil Quarterly Outage Period
+    Coil:Cooling:DX:SingleSpeed, !- Cooling Coil Object Type
+    {{ zone.name }} CoolCoil, !- Cooling Coil Name
+    ;                        !- Dehumidification Control Type
+
+Fan:VariableVolume,
+    {{ zone.name }} Fan,     !- Name
+    Always On,               !- Availability Schedule Name
+    0.7,                     !- Fan Total Efficiency
+    600,                     !- Pressure Rise {Pa}
+    {{ zone.max_heating_w / 1000.0 }}, !- Maximum Flow Rate {m3/s}
+    FixedQuarterly,          !- Fan Power Coefficient Array Name
+    0.2,                     !- Minimum Flow Fraction
+    {{ zone.name }} Supply Inlet,  !- Air Inlet Node Name
+    {{ zone.name }} HeatNode;  !- Air Outlet Node Name
+
+Coil:Heating:Electric,
+    {{ zone.name }} HeatCoil, !- Name
+    Always On,               !- Availability Schedule Name
+    1.0,                     !- Efficiency
+    {{ zone.max_heating_w }}, !- Nominal Capacity {W}
+    {{ zone.name }} HeatNode, !- Air Inlet Node Name
+    {{ zone.name }} CoolNode; !- Air Outlet Node Name
+
+Coil:Cooling:DX:SingleSpeed,
+    {{ zone.name }} CoolCoil, !- Name
+    Always On,               !- Availability Schedule Name
+    {{ zone.max_cooling_w }}, !- Gross Rated Total Cooling Capacity {W}
+    0.75,                    !- Gross Rated Sensible Heat Ratio
+    3.0,                     !- Gross Rated COP {W/W}
+    {{ zone.max_cooling_w / 2000.0 }}, !- Rated Air Flow Rate {m3/s}
+    {{ zone.name }} CoolNode, !- Air Inlet Node Name
+    {{ zone.name }} Air Node; !- Air Outlet Node Name
+
+{% else %}
 ZoneHVAC:IdealLoadsAirSystem,
     {{ zone.name }} Ideal Loads,  !- Name
     Always On,               !- Availability Schedule Name
@@ -460,6 +536,7 @@ ZoneHVAC:IdealLoadsAirSystem,
     None,                    !- Heat Recovery Type
     0.7,                     !- Sensible Heat Recovery Effectiveness
     0.65;                    !- Latent Heat Recovery Effectiveness
+{% endif %}
 
 {% endfor %}
 
@@ -489,8 +566,8 @@ Material,
     Insulation_EPS,          !- Name
     MediumSmooth,            !- Roughness
     {{ insulation_thickness }},  !- Thickness {m}
-    0.04,                    !- Conductivity {W/m-K}
-    25,                      !- Density {kg/m3}
+    {{ insulation_conductivity }}, !- Conductivity {W/m-K}
+    {{ insulation_density }}, !- Density {kg/m3}
     1400,                    !- Specific Heat {J/kg-K}
     0.9,                     !- Thermal Absorptance
     0.7,                     !- Solar Absorptance
@@ -562,6 +639,9 @@ DEFAULT_PARAMS = {
     "run_end_month": 3,
     "run_end_day": 1,
     "run_end_year": 2024,
+    "hvac_type": "IdealLoads", # Options: IdealLoads, VAV, Radiant
+    "insulation_conductivity": 0.04,
+    "insulation_density": 25,
 
     # Envelope
     "insulation_thickness": 0.08,       # m (gives approx U=0.4 W/m2K wall)
@@ -617,7 +697,7 @@ def generate_model(params: dict, output_path: str) -> Path:
     return out
 
 
-def load_params(params_path: str = None) -> dict:
+def load_params(params_path: Optional[str] = None) -> dict:
     """Load params from JSON, merging with defaults and adapting format."""
     import math
     params = dict(DEFAULT_PARAMS)
@@ -655,6 +735,25 @@ def load_params(params_path: str = None) -> dict:
             # Replace the raw JSON zones with our adapted ones
             overrides["zones"] = adapted_zones
             
+        # --- Parameter Injection (SysID calibration) ---
+        if "target_r_env" in overrides and "total_area_m2" in overrides:
+            R = overrides["target_r_env"]
+            L = params["insulation_thickness"]
+            # k = L / R
+            params["insulation_conductivity"] = L / R
+            print(f"[calib] Injected k={params['insulation_conductivity']:.4f} (R={R:.2f})")
+
+        if "target_c_air" in overrides and "total_area_m2" in overrides:
+            # This is a simplification: mapping global C to the insulation layer
+            # In real EnergyPlus, mass is distributed.
+            C = overrides["target_c_air"]
+            L = params["insulation_thickness"]
+            A = overrides["total_area_m2"]
+            Cp = 1400 # specific heat from template
+            # rho = C / (L * A * Cp)
+            params["insulation_density"] = C / (L * A * Cp)
+            print(f"[calib] Injected rho={params['insulation_density']:.2f} (C={C:.1e})")
+
         params.update(overrides)
         
     return params

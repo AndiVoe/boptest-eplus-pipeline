@@ -1,0 +1,13 @@
+{
+    "building_name": "Calibrated_Shoebox",
+    "total_area_m2": 100.0,
+    "target_r_env": 2.5,
+    "target_c_air": 5e7,
+    "zones": [
+        {
+            "name": "Single_Zone",
+            "ceiling_height_m": 3.0,
+            "volume_m3": 300.0
+        }
+    ]
+}

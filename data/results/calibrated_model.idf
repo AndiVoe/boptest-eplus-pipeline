@@ -14,7 +14,7 @@ SimulationControl,
     ;                        !- Maximum Number of HVAC Sizing Simulation Passes
 
 Building,
-    Archetype_Office,     !- Name
+    Calibrated_Shoebox,     !- Name
     0,                       !- North Axis {deg}
     City,                    !- Terrain
     0.001,                   !- Loads Convergence Tolerance Value {W}
@@ -143,11 +143,11 @@ Schedule:Compact,
 
 
 ! ================================================================
-! ZONE: Office_Zone_1
+! ZONE: Single_Zone
 ! ================================================================
 
 Zone,
-    Office_Zone_1,         !- Name
+    Single_Zone,         !- Name
     0,                       !- Direction of Relative North {deg}
     0,     !- X Origin {m}
     0,     !- Y Origin {m}
@@ -155,15 +155,15 @@ Zone,
     1,                       !- Type
     1,                       !- Multiplier
     autocalculate,           !- Ceiling Height {m}
-    67.5;       !- Volume {m3}
+    300.0;       !- Volume {m3}
 
 ! --- Envelope surfaces ---
 
 BuildingSurface:Detailed,
-    Office_Zone_1_Floor,   !- Name
+    Single_Zone_Floor,   !- Name
     Floor,                   !- Surface Type
     Int_Floor,  !- Construction Name
-    Office_Zone_1,         !- Zone Name
+    Single_Zone,         !- Zone Name
     ,                        !- Space Name
     Ground,                  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -172,15 +172,15 @@ BuildingSurface:Detailed,
     autocalculate,           !- View Factor to Ground
     4,                       !- Number of Vertices
     0, 0, 0,
-    0, 4.5, 0,
-    5.0, 4.5, 0,
-    5.0, 0, 0;
+    0, 10.0, 0,
+    10.0, 10.0, 0,
+    10.0, 0, 0;
 
 BuildingSurface:Detailed,
-    Office_Zone_1_Ceiling, !- Name
+    Single_Zone_Ceiling, !- Name
     Ceiling,                 !- Surface Type
     Ext_Roof,  !- Construction Name
-    Office_Zone_1,         !- Zone Name
+    Single_Zone,         !- Zone Name
     ,                        !- Space Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -188,16 +188,16 @@ BuildingSurface:Detailed,
     WindExposed,             !- Wind Exposure
     autocalculate,           !- View Factor to Ground
     4,                       !- Number of Vertices
-    5.0, 0, 3.0,
-    5.0, 4.5, 3.0,
-    0, 4.5, 3.0,
+    10.0, 0, 3.0,
+    10.0, 10.0, 3.0,
+    0, 10.0, 3.0,
     0, 0, 3.0;
 
 BuildingSurface:Detailed,
-    Office_Zone_1_Wall_South,  !- Name
+    Single_Zone_Wall_South,  !- Name
     Wall,                    !- Surface Type
     Ext_Wall, !- Construction Name
-    Office_Zone_1,         !- Zone Name
+    Single_Zone,         !- Zone Name
     ,                        !- Space Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -207,14 +207,14 @@ BuildingSurface:Detailed,
     4,                       !- Number of Vertices
     0, 0, 3.0,
     0, 0, 0,
-    5.0, 0, 0,
-    5.0, 0, 3.0;
+    10.0, 0, 0,
+    10.0, 0, 3.0;
 
 BuildingSurface:Detailed,
-    Office_Zone_1_Wall_North,  !- Name
+    Single_Zone_Wall_North,  !- Name
     Wall,                    !- Surface Type
     Ext_Wall, !- Construction Name
-    Office_Zone_1,         !- Zone Name
+    Single_Zone,         !- Zone Name
     ,                        !- Space Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -222,16 +222,16 @@ BuildingSurface:Detailed,
     WindExposed,             !- Wind Exposure
     autocalculate,           !- View Factor to Ground
     4,                       !- Number of Vertices
-    5.0, 4.5, 3.0,
-    5.0, 4.5, 0,
-    0, 4.5, 0,
-    0, 4.5, 3.0;
+    10.0, 10.0, 3.0,
+    10.0, 10.0, 0,
+    0, 10.0, 0,
+    0, 10.0, 3.0;
 
 BuildingSurface:Detailed,
-    Office_Zone_1_Wall_East,  !- Name
+    Single_Zone_Wall_East,  !- Name
     Wall,                    !- Surface Type
     Ext_Wall, !- Construction Name
-    Office_Zone_1,         !- Zone Name
+    Single_Zone,         !- Zone Name
     ,                        !- Space Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -239,16 +239,16 @@ BuildingSurface:Detailed,
     WindExposed,             !- Wind Exposure
     autocalculate,           !- View Factor to Ground
     4,                       !- Number of Vertices
-    5.0, 0, 3.0,
-    5.0, 0, 0,
-    5.0, 4.5, 0,
-    5.0, 4.5, 3.0;
+    10.0, 0, 3.0,
+    10.0, 0, 0,
+    10.0, 10.0, 0,
+    10.0, 10.0, 3.0;
 
 BuildingSurface:Detailed,
-    Office_Zone_1_Wall_West,  !- Name
+    Single_Zone_Wall_West,  !- Name
     Wall,                    !- Surface Type
     Ext_Wall, !- Construction Name
-    Office_Zone_1,         !- Zone Name
+    Single_Zone,         !- Zone Name
     ,                        !- Space Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -256,31 +256,31 @@ BuildingSurface:Detailed,
     WindExposed,             !- Wind Exposure
     autocalculate,           !- View Factor to Ground
     4,                       !- Number of Vertices
-    0, 4.5, 3.0,
-    0, 4.5, 0,
+    0, 10.0, 3.0,
+    0, 10.0, 0,
     0, 0, 0,
     0, 0, 3.0;
 
 FenestrationSurface:Detailed,
-    Office_Zone_1_Window_South,  !- Name
+    Single_Zone_Window_South,  !- Name
     Window,                  !- Surface Type
     Simple_Window_Const,  !- Construction Name
-    Office_Zone_1_Wall_South,  !- Building Surface Name
+    Single_Zone_Wall_South,  !- Building Surface Name
     ,                        !- Outside Boundary Condition Object
     autocalculate,           !- View Factor to Ground
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     4,                       !- Number of Vertices
-    0.5, 0, 2.4000000000000004,
-    0.5, 0, 0.6000000000000001,
-    4.5, 0, 0.6000000000000001,
-    4.5, 0, 2.4000000000000004;
+    1.0, 0, 2.4000000000000004,
+    1.0, 0, 0.6000000000000001,
+    9.0, 0, 0.6000000000000001,
+    9.0, 0, 2.4000000000000004;
 
 ! --- Internal gains ---
 
 People,
-    Office_Zone_1_People,  !- Name
-    Office_Zone_1,         !- Zone or ZoneList or Space or SpaceList Name
+    Single_Zone_People,  !- Name
+    Single_Zone,         !- Zone or ZoneList or Space or SpaceList Name
     Office Occupancy,        !- Number of People Schedule Name
     People/Area,             !- Number of People Calculation Method
     ,                        !- Number of People
@@ -291,8 +291,8 @@ People,
     Activity Level Schedule; !- Activity Level Schedule Name
 
 Lights,
-    Office_Zone_1_Lights,  !- Name
-    Office_Zone_1,         !- Zone or ZoneList or Space or SpaceList Name
+    Single_Zone_Lights,  !- Name
+    Single_Zone,         !- Zone or ZoneList or Space or SpaceList Name
     Office Occupancy,        !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
@@ -304,8 +304,8 @@ Lights,
     1;                       !- Fraction Replaceable
 
 ElectricEquipment,
-    Office_Zone_1_Equipment,  !- Name
-    Office_Zone_1,         !- Zone or ZoneList or Space or SpaceList Name
+    Single_Zone_Equipment,  !- Name
+    Single_Zone,         !- Zone or ZoneList or Space or SpaceList Name
     Office Occupancy,        !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Design Level {W}
@@ -316,38 +316,38 @@ ElectricEquipment,
     0;                       !- Fraction Lost
 
 ZoneInfiltration:DesignFlowRate,
-    Office_Zone_1_Infiltration,  !- Name
-    Office_Zone_1,         !- Zone or ZoneList or Space or SpaceList Name
+    Single_Zone_Infiltration,  !- Name
+    Single_Zone,         !- Zone or ZoneList or Space or SpaceList Name
     0.5;  !- Air Changes per Hour {1/hr}
 
 ! --- HVAC: IdealLoads System ---
 
 ZoneControl:Thermostat,
-    Office_Zone_1 Thermostat,  !- Name
-    Office_Zone_1,         !- Zone or ZoneList Name
+    Single_Zone Thermostat,  !- Name
+    Single_Zone,         !- Zone or ZoneList Name
     HVACTemplate-Always 4,   !- Control Type Schedule Name
     ThermostatSetpoint:DualSetpoint,  !- Control Object Type
-    Office_Zone_1 Dual SP; !- Control Name
+    Single_Zone Dual SP; !- Control Name
 
 ThermostatSetpoint:DualSetpoint,
-    Office_Zone_1 Dual SP, !- Name
+    Single_Zone Dual SP, !- Name
     Heating Setpoint Schedule,  !- Heating Setpoint Temperature Schedule Name
     Cooling Setpoint Schedule;  !- Cooling Setpoint Temperature Schedule Name
 
 ZoneHVAC:EquipmentConnections,
-    Office_Zone_1,         !- Zone Name
-    Office_Zone_1 Equipment,  !- Zone Conditioning Equipment List Name
-    Office_Zone_1 Supply Inlet,  !- Zone Air Inlet Node or NodeList Name
+    Single_Zone,         !- Zone Name
+    Single_Zone Equipment,  !- Zone Conditioning Equipment List Name
+    Single_Zone Supply Inlet,  !- Zone Air Inlet Node or NodeList Name
     ,                        !- Zone Air Exhaust Node or NodeList Name
-    Office_Zone_1 Air Node,  !- Zone Air Node Name
-    Office_Zone_1 Return;  !- Zone Return Air Node Name
+    Single_Zone Air Node,  !- Zone Air Node Name
+    Single_Zone Return;  !- Zone Return Air Node Name
 
 ZoneHVAC:EquipmentList,
-    Office_Zone_1 Equipment,  !- Name
+    Single_Zone Equipment,  !- Name
     SequentialLoad,          !- Load Distribution Scheme
     
     ZoneHVAC:IdealLoadsAirSystem,  !- Zone Equipment Object Type
-    Office_Zone_1 Ideal Loads,  !- Zone Equipment Name
+    Single_Zone Ideal Loads,  !- Zone Equipment Name
     
     1,                       !- Zone Equipment Cooling Sequence
     1,                       !- Zone Equipment Heating or No-Load Sequence
@@ -356,9 +356,9 @@ ZoneHVAC:EquipmentList,
 
 
 ZoneHVAC:IdealLoadsAirSystem,
-    Office_Zone_1 Ideal Loads,  !- Name
+    Single_Zone Ideal Loads,  !- Name
     Always On,               !- Availability Schedule Name
-    Office_Zone_1 Supply Inlet,  !- Zone Supply Air Node Name
+    Single_Zone Supply Inlet,  !- Zone Supply Air Node Name
     ,                        !- Zone Exhaust Air Node Name
     ,                        !- System Inlet Air Node Name
     50,                      !- Maximum Heating Supply Air Temperature [C]
@@ -367,10 +367,10 @@ ZoneHVAC:IdealLoadsAirSystem,
     0.0077,                  !- Minimum Cooling Supply Air Humidity Ratio
     LimitCapacity,           !- Heating Limit
     ,                        !- Maximum Heating Air Flow Rate {m3/s}
-    2000,  !- Maximum Sensible Heating Capacity {W}
+    3000,  !- Maximum Sensible Heating Capacity {W}
     LimitCapacity,           !- Cooling Limit
     ,                        !- Maximum Cooling Air Flow Rate {m3/s}
-    2000,  !- Maximum Total Cooling Capacity {W}
+    3000,  !- Maximum Total Cooling Capacity {W}
     ,                        !- Heating Availability Schedule Name
     ,                        !- Cooling Availability Schedule Name
     ConstantSensibleHeatRatio,  !- Dehumidification Control Type
@@ -413,8 +413,8 @@ Material,
     Insulation_EPS,          !- Name
     MediumSmooth,            !- Roughness
     0.08,  !- Thickness {m}
-    0.04, !- Conductivity {W/m-K}
-    25, !- Density {kg/m3}
+    0.032, !- Conductivity {W/m-K}
+    4464.285714285715, !- Density {kg/m3}
     1400,                    !- Specific Heat {J/kg-K}
     0.9,                     !- Thermal Absorptance
     0.7,                     !- Solar Absorptance

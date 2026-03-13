@@ -123,15 +123,26 @@ def save_and_plot(df: pd.DataFrame):
     width = 0.8 / len(df)
 
     fig, ax = plt.subplots(figsize=(12, 5))
+    y_max = 0.0
     for i, (_, row) in enumerate(df.iterrows()):
         vals = [row[c] if pd.notna(row[c]) else 0 for c in kpi_cols]
         offset = (i - len(df) / 2 + 0.5) * width
-        ax.bar(x + offset, vals, width, label=row["test_case"])
+        bars = ax.bar(x + offset, vals, width, label=row["test_case"])
+        if vals:
+            y_max = max(y_max, max(vals))
+        # Lightweight labels improve interpretation for small bars.
+        for b in bars:
+            h = b.get_height()
+            if h != 0:
+                ax.text(b.get_x() + b.get_width() / 2, h, f"{h:.2f}", ha="center", va="bottom", fontsize=7, rotation=90)
 
     ax.set_xticks(x)
     ax.set_xticklabels(kpi_cols, rotation=30, ha="right")
     ax.set_ylabel("KPI Value")
     ax.set_title("BopTest Baseline KPI Comparison")
+    if y_max > 0:
+        ax.set_ylim(0, y_max * 1.2)
+    fig.suptitle(f"n_cases={len(df)} | n_kpis={len(kpi_cols)}", fontsize=9, y=0.995)
     ax.legend()
     ax.grid(axis="y", alpha=0.3)
     fig.tight_layout()

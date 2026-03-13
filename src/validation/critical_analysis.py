@@ -68,15 +68,30 @@ def analyze_eplus():
     axes[0].set_ylabel("Zone Temp (C)")
     axes[0].set_title("EnergyPlus Naive Model: Full Simulation Period (Jan-Mar 2024)")
     axes[0].grid(True, alpha=0.3)
+    t = df[temp_col].astype(float)
+    t_pad = max(0.2, 0.1 * max(float(t.max() - t.min()), 0.5))
+    axes[0].set_ylim(float(t.min()) - t_pad, float(t.max()) + t_pad)
     
     axes[1].plot(df.index, df[heat_col].astype(float) / 1e6, linewidth=0.5, color="#F59E0B")
     axes[1].set_ylabel("Heating Energy (MJ)")
     axes[1].grid(True, alpha=0.3)
+    h = df[heat_col].astype(float) / 1e6
+    h_pad = max(0.05, 0.1 * max(float(h.max() - h.min()), 0.1))
+    axes[1].set_ylim(float(h.min()) - h_pad, float(h.max()) + h_pad)
     
     axes[2].plot(df.index, df[cool_col].astype(float) / 1e6, linewidth=0.5, color="#2563EB")
     axes[2].set_ylabel("Cooling Energy (MJ)")
     axes[2].set_xlabel("Time")
     axes[2].grid(True, alpha=0.3)
+    c = df[cool_col].astype(float) / 1e6
+    c_pad = max(0.05, 0.1 * max(float(c.max() - c.min()), 0.1))
+    axes[2].set_ylim(float(c.min()) - c_pad, float(c.max()) + c_pad)
+
+    fig.suptitle(
+      f"n={len(df)} | Temp={t.min():.2f}..{t.max():.2f} C | Heat={h.min():.2f}..{h.max():.2f} MJ | Cool={c.min():.2f}..{c.max():.2f} MJ",
+      fontsize=9,
+      y=0.995,
+    )
     
     fig.tight_layout()
     PLOTS.mkdir(parents=True, exist_ok=True)

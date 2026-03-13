@@ -74,10 +74,17 @@ def main():
         print("\n--- PHASE 0.1: PRE-FLIGHT SANITY CHECK ---")
         run_cmd(["python", "src/validation/preflight_checker.py"], env=env)
 
-    # --- PHASE 1: Archetype & Generative Modeling ---
+    # --- PHASE 1: MODEL EXTRACTION ---
     print("\n--- PHASE 1: MODEL EXTRACTION ---")
-    if not run_cmd(["python", "src/archetype/parse_archetype.py", args.idf], env=env):
-        return
+    
+    # If a Boptest model is specified but no IDF exists, or for Category B logic:
+    if args.model and (not os.path.exists(args.idf) or "multizone" in args.model):
+        print(f"[Orchestrator] Using Boptest discovery for {args.model}")
+        if not run_cmd(["python", "src/archetype/boptest_to_idf_params.py", args.model, "--offline"], env=env):
+            return
+    else:
+        if not run_cmd(["python", "src/archetype/parse_archetype.py", args.idf], env=env):
+            return
 
     if not run_cmd(["python", "src/archetype/generate_model.py"], env=env):
         return
@@ -86,7 +93,7 @@ def main():
     if not args.skip_id:
         print("\n--- PHASE 2: SYSTEM CALIBRATION ---")
         # Ensure we have data for SysID if needed (simplified for now)
-        if not run_cmd(["python", "src/mpc/system_id_multizone.py"], env=env):
+        if not run_cmd(["python", "system_id_multizone.py"], env=env):
             print("Warning: SysID failed or skipped. Using default parameters.")
 
     # --- PHASE 3: MPC Execution ---

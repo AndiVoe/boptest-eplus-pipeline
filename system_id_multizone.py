@@ -11,21 +11,26 @@ def train_id_model(csv_path="multizone_id_data.csv", dt=3600.0, epochs=200):
     n_zones = len(zones)
     
     # Prepare Tensors (normalize temperatures to delta-T for stability)
-    T_obs = torch.tensor(df[[f'T_{z}' for z in zones]].values, dtype=torch.float32) - 273.15
-    T_out = torch.tensor(df['T_out'].values, dtype=torch.float32) - 273.15
-    Q_sol = torch.tensor(df['Q_sol'].values, dtype=torch.float32) # Global horizontal
+    T_obs = torch.tensor(df[[f'T_{z}' for z in zones]].values, dtype=torch.float32)
+    T_out = torch.tensor(df['T_out'].values, dtype=torch.float32)
+    Q_sol = torch.tensor(df['Q_sol'].values, dtype=torch.float32)
+    Q_hea = torch.tensor(df[[f'Q_hea_{z}' for z in zones]].values, dtype=torch.float32) # Injected Heat/Setpoint Proxy
     
-    # Define Learnable Parameters
-    # We initialize with reasonable priors
-    R_env = nn.Parameter(torch.ones(n_zones) * 0.1)
-    C_air = nn.Parameter(torch.ones(n_zones) * 1e7)
+    # Define Learnable Parameters with better scaling
+    # R ~ 0.1-0.5, C ~ 5e5 - 5e7, G ~ 0.1-1.0
+    R_env = nn.Parameter(torch.ones(n_zones) * 0.2)
+    C_air = nn.Parameter(torch.ones(n_zones) * 1e6) 
     
     # Coupling Matrix (Symmetric)
-    # We only learn upper triangle to ensure symmetry
     n_couplings = int(n_zones * (n_zones - 1) / 2)
-    G_ij_flat = nn.Parameter(torch.full((n_couplings,), 0.1)) # Admittance G = 1/R
+    G_ij_flat = nn.Parameter(torch.full((n_couplings,), 0.05))
     
-    optimizer = optim.Adam([R_env, C_air, G_ij_flat], lr=0.01)
+    # Differential learning rates
+    optimizer = optim.Adam([
+        {'params': [R_env], 'lr': 0.005},
+        {'params': [C_air], 'lr': 1e4}, # C is much larger, needs larger steps
+        {'params': [G_ij_flat], 'lr': 0.01}
+    ])
     
     def get_L_ij(G_flat):
         G = torch.zeros(n_zones, n_zones)
@@ -47,12 +52,13 @@ def train_id_model(csv_path="multizone_id_data.csv", dt=3600.0, epochs=200):
         L_ij = get_L_ij(G_ij_flat)
         
         for t in range(len(T_obs) - 1):
-            # Heat Balance: C dT/dt = (T_out - T)/R_env + Q_sol + Q_coupling
+            # Heat Balance: C dT/dt = (T_out - T)/R_env + Q_sol + Q_hea + Q_coupling
             Q_ext = (T_out[t] - T_curr) / torch.abs(R_env)
             Q_couple = -torch.mv(L_ij, T_curr)
-            Q_sol_scaled = Q_sol[t] * 1.0 # Simple scaling for now
+            Q_sol_scaled = Q_sol[t] * 10.0 # Heuristic scaling for window area
             
-            dT_dt = (Q_ext + Q_sol_scaled + Q_couple) / torch.abs(C_air)
+            # Incorporate direct heating Term
+            dT_dt = (Q_ext + Q_sol_scaled + Q_hea[t] + Q_couple) / torch.abs(C_air)
             T_next = T_curr + dT_dt * dt
             T_pred.append(T_next)
             T_curr = T_next
@@ -97,4 +103,11 @@ def train_id_model(csv_path="multizone_id_data.csv", dt=3600.0, epochs=200):
     print("Convergence plot saved as system_id_convergence.png")
 
 if __name__ == "__main__":
-    train_id_model()
+    import argparse
+    parser = argparse.ArgumentParser(description="Multi-zone System ID Trainer")
+    parser.add_argument("--csv", default="multizone_id_data.csv", help="Dataset CSV path")
+    parser.add_argument("--epochs", type=int, default=200, help="Number of training epochs")
+    parser.add_argument("--dt", type=float, default=3600.0, help="Timestep in seconds")
+    args = parser.parse_args()
+    
+    train_id_model(csv_path=args.csv, dt=args.dt, epochs=args.epochs)

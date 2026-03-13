@@ -7,6 +7,10 @@ triggers the PyTorch MPC, and sends the optimal heating setpoint to BopTest ever
 """
 import time
 import json
+import hashlib
+import socket
+import subprocess
+from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -14,6 +18,49 @@ from src.boptest.client import BopTestClient
 from src.mpc.controller import optimize_trajectory
 
 import argparse
+
+
+def _sha256_file(path: Path) -> str | None:
+    if not path.exists() or not path.is_file():
+        return None
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _git_commit(repo_root: Path) -> str | None:
+    try:
+        out = subprocess.check_output(
+            ["git", "-C", str(repo_root), "rev-parse", "HEAD"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+            timeout=3,
+        )
+        return out.strip()
+    except Exception:
+        return None
+
+
+def _to_kpi_dict(kpis_obj) -> dict:
+    if isinstance(kpis_obj, dict):
+        return kpis_obj
+    if isinstance(kpis_obj, pd.DataFrame) and not kpis_obj.empty:
+        return {k: (None if pd.isna(v) else v) for k, v in kpis_obj.iloc[0].to_dict().items()}
+    return {}
+
+
+def _validate_kpi_contract(kpis: dict, strict: bool = False) -> list[str]:
+    # Keep this intentionally lightweight and BOPTEST-oriented.
+    required_keys = ["ener_tot", "tdis_tot"]
+    missing = [k for k in required_keys if k not in kpis]
+    if missing:
+        msg = f"KPI contract check missing keys: {missing}"
+        if strict:
+            raise RuntimeError(msg)
+        print(f"WARNING: {msg}")
+    return missing
 
 class BoptestTestCase:
     """Wrapper to make internal TestCase look like BopTestClient for the runner."""
@@ -80,7 +127,18 @@ def run_closed_loop():
     parser.add_argument("--model", type=str, default="bestest_air", help="BopTest model name")
     parser.add_argument("--alpha", type=float, default=1e-4, help="Energy weight")
     parser.add_argument("--beta", type=float, default=100.0, help="Comfort weight")
+    parser.add_argument("--strict-contract", action="store_true", help="Fail run if mandatory KPI keys are missing")
+    parser.add_argument("--output-dir", type=str, default="artifacts/closed_loop_runs", help="Directory for run outputs and manifest")
     args = parser.parse_args()
+
+    repo_root = Path(__file__).resolve().parents[2]
+    output_dir = (repo_root / args.output_dir).resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    run_started_utc = datetime.now(timezone.utc)
+    run_id = f"run_{run_started_utc.strftime('%Y%m%dT%H%M%SZ')}_{args.model}"
+    run_dir = output_dir / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"Starting run_closed_loop for model: {args.model}")
 
@@ -172,6 +230,7 @@ def run_closed_loop():
     final_time = start_sec + duration_sec
     
     results = []
+    loop_start = time.perf_counter()
 
     print(f"Simulation loop starting: {current_time} to {final_time}")
     while current_time < final_time:
@@ -281,13 +340,64 @@ def run_closed_loop():
 
     print("\nMPC Loop Finished. Evaluating KPIs...")
     kpis = client.get_kpis()
+    kpi_dict = _to_kpi_dict(kpis)
+    missing_kpis = _validate_kpi_contract(kpi_dict, strict=args.strict_contract)
     print("="*60)
     print(f" Scenario: {args.scenario or 'Default'}")
     print(f" Model: {args.model}")
     print(kpis)
     print("="*60)
-    
-    pd.DataFrame(results).to_csv(f"mpc_results_{args.model}.csv", index=False)
+
+    # Preserve legacy output path for backwards compatibility.
+    legacy_csv = Path(f"mpc_results_{args.model}.csv")
+    pd.DataFrame(results).to_csv(legacy_csv, index=False)
+
+    run_csv = run_dir / "timeseries.csv"
+    pd.DataFrame(results).to_csv(run_csv, index=False)
+
+    run_ended_utc = datetime.now(timezone.utc)
+    loop_wall_s = time.perf_counter() - loop_start
+
+    script_path = Path(__file__).resolve()
+    controller_path = repo_root / "src" / "mpc" / "controller.py"
+    client_path = repo_root / "src" / "boptest" / "client.py"
+
+    manifest = {
+        "run_id": run_id,
+        "status": "completed",
+        "started_utc": run_started_utc.isoformat(),
+        "ended_utc": run_ended_utc.isoformat(),
+        "loop_wall_time_s": round(loop_wall_s, 3),
+        "host": socket.gethostname(),
+        "mode": "direct" if args.direct else "api",
+        "args": vars(args),
+        "scenario": args.scenario or "Default",
+        "model": args.model,
+        "steps_recorded": len(results),
+        "kpis": kpi_dict,
+        "kpi_contract_missing": missing_kpis,
+        "paths": {
+            "run_dir": str(run_dir),
+            "timeseries_csv": str(run_csv),
+            "legacy_csv": str(legacy_csv.resolve()),
+        },
+        "provenance": {
+            "repo_root": str(repo_root),
+            "git_commit": _git_commit(repo_root),
+            "files": {
+                "script": {"path": str(script_path), "sha256": _sha256_file(script_path)},
+                "controller": {"path": str(controller_path), "sha256": _sha256_file(controller_path)},
+                "boptest_client": {"path": str(client_path), "sha256": _sha256_file(client_path)},
+            },
+        },
+    }
+
+    manifest_path = run_dir / "run_manifest.json"
+    with manifest_path.open("w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+
+    print(f"Run artifacts written to: {run_dir}")
+    print(f"Run manifest: {manifest_path}")
 
 if __name__ == "__main__":
     try:

@@ -1,0 +1,21 @@
+{
+    "building_name": "TABULA_IT.N.SFH.07.Gen",
+    "source": "TABULA_EPISCOPE",
+    "description": "Single Family House (1976-1990)",
+    "total_area_m2": 150.0,
+    "zones": [
+        {
+            "name": "LiveArea",
+            "floor_area_m2": 150.0,
+            "ceiling_height_m": 2.7,
+            "volume_m3": 405.0
+        }
+    ],
+    "envelope": {
+        "u_wall": 0.58,
+        "u_roof": 0.42,
+        "u_floor": 0.65,
+        "u_window": 2.8
+    },
+    "hvac_type": "IdealLoadsAirSystem"
+}

@@ -47,12 +47,41 @@ def instrument_idf(idf_path):
         content += f"\nExternalInterface:Variable, {zone}_Temp, {zone}, Zone Air Temperature;\n"
         instr_count += 1
 
+    # 4. Find High-Fidelity HVAC Components and Inject Actuators
+    
+    # 4a. VAV Fans
+    fan_pattern = re.compile(r"Fan:VariableVolume,\s*([^,;]+)", re.IGNORECASE)
+    fans = fan_pattern.findall(content)
+    for fan in fans:
+        fan = fan.strip()
+        print(f"  🌀 Adding Actuator for Fan: {fan}")
+        content += f"\nExternalInterface:Actuator,\n    {fan}_Press,\n    {fan},\n    Fan,\n    Fan Pressure Rise;\n"
+        instr_count += 1
+
+    # 4b. Heating Coils (Electric)
+    heat_coil_pattern = re.compile(r"Coil:Heating:Electric,\s*([^,;]+)", re.IGNORECASE)
+    heat_coils = heat_coil_pattern.findall(content)
+    for hc in heat_coils:
+        hc = hc.strip()
+        print(f"  🔥 Adding Actuator for Heating Coil: {hc}")
+        content += f"\nExternalInterface:Actuator,\n    {hc}_Pow,\n    {hc},\n    Heating Coil,\n    Heating Coil Power;\n"
+        instr_count += 1
+
+    # 4c. Radiant Systems
+    radiant_pattern = re.compile(r"ZoneHVAC:LowTemperatureRadiant:VariableFlow,\s*([^,;]+)", re.IGNORECASE)
+    radiants = radiant_pattern.findall(content)
+    for rad in radiants:
+        rad = rad.strip()
+        print(f"  🚿 Adding Actuator for Radiant System: {rad}")
+        content += f"\nExternalInterface:Actuator,\n    {rad}_Flow,\n    {rad},\n    Variable Flow Radiant,\n    Water Mass Flow Rate;\n"
+        instr_count += 1
+
     output_path = idf_path.replace(".idf", "_instrumented.idf")
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(content)
         
     print(f"✅ Instrumented IDF saved to: {output_path}")
-    print(f"   Injected {instr_count} thermostat hooks.")
+    print(f"   Injected {instr_count} instrumentation hooks.")
     return output_path
 
 if __name__ == "__main__":

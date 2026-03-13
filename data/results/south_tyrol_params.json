@@ -1,0 +1,21 @@
+{
+    "building_name": "TABULA_IT.N.MFH.08.Gen",
+    "source": "TABULA_EPISCOPE",
+    "description": "Multi Family House (1991-2005)",
+    "total_area_m2": 450.0,
+    "zones": [
+        {
+            "name": "LiveArea",
+            "floor_area_m2": 450.0,
+            "ceiling_height_m": 2.7,
+            "volume_m3": 1215.0
+        }
+    ],
+    "envelope": {
+        "u_wall": 0.38,
+        "u_roof": 0.35,
+        "u_floor": 0.45,
+        "u_window": 1.7
+    },
+    "hvac_type": "IdealLoadsAirSystem"
+}

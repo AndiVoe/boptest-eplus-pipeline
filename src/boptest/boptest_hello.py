@@ -101,7 +101,11 @@ def plot_zone_temperature(df: pd.DataFrame, tag: str = "hello") -> Path:
     out = PLOTS_DIR / f"boptest_{tag}_zone_temp.png"
 
     fig, ax = plt.subplots(figsize=(10, 4))
-    ax.plot(df["time_h"], df["zone_temp_C"], linewidth=1.2, color="#2563EB")
+    # Raw + smoothed overlay for better readability while preserving fidelity.
+    window = max(3, min(8, len(df) // 10))
+    smooth = df["zone_temp_C"].rolling(window=window, center=True, min_periods=1).mean()
+    ax.plot(df["time_h"], df["zone_temp_C"], linewidth=1.0, alpha=0.35, color="#2563EB", label="Zone Temp (raw)")
+    ax.plot(df["time_h"], smooth, linewidth=2.0, color="#1D4ED8", label="Zone Temp (smoothed)")
     ax.axhline(
         y=HEATING_SETPOINT_K - 273.15,
         color="#DC2626",
@@ -112,6 +116,11 @@ def plot_zone_temperature(df: pd.DataFrame, tag: str = "hello") -> Path:
     ax.set_xlabel("Time (h)")
     ax.set_ylabel("Zone Temperature (°C)")
     ax.set_title(f"BopTest '{TEST_CASE}' — Constant Setpoint Simulation")
+    t_lo = float(df["zone_temp_C"].min())
+    t_hi = float(df["zone_temp_C"].max())
+    pad = max(0.2, 0.1 * max(t_hi - t_lo, 0.5))
+    ax.set_ylim(t_lo - pad, t_hi + pad)
+    fig.suptitle(f"n={len(df)} | Temp range={t_lo:.2f}..{t_hi:.2f} C", fontsize=9, y=0.995)
     ax.legend()
     ax.grid(True, alpha=0.3)
     fig.tight_layout()
@@ -140,13 +149,19 @@ def main():
         default=24,
         help="Number of hours to simulate (default: 24)",
     )
+    parser.add_argument(
+        "--startup-timeout-s",
+        type=int,
+        default=900,
+        help="Max seconds to wait for BOPTEST testcase startup (default: 900)",
+    )
     args = parser.parse_args()
 
     # 1. Connect
     print(f"[boptest_hello] Connecting to BopTest at {args.url} ...")
     client = BopTestClient(url=args.url)
     client.select_test_case(TEST_CASE, async_select=True)
-    client.wait_for_status("Running")
+    client.wait_for_status("Running", timeout=args.startup_timeout_s)
 
     # 2. Check available inputs / measurements
     inputs = client.get_inputs()
